@@ -38,7 +38,7 @@ There are only three places your data can be, and it is worth being precise abou
 
 **2. On our server.** A single database in Amazon Web Services (region: US East, Northern Virginia). It holds only what the social features need. The complete list is in "What we store on our server" below. It does **not** hold your workout history, your programs, your chat with the coach, your sleep, your heart rate, your weight, or your home location.
 
-**3. In accounts with other companies.** If you use the AI coach with your own Google (Gemini) or Anthropic (Claude) API key, those requests are billed to and governed by your account with that company, and we are not the account holder. If instead you use the shared coach, the request goes to the same place but on our account rather than yours — see "The shared coach" below. If you connect Fitbit, your phone talks to Fitbit directly using your own Fitbit login. In every case, those companies' privacy policies apply to what they do with what they receive.
+**3. In accounts with other companies.** If you use the AI coach with your own Google (Gemini) or Anthropic (Claude) API key, those requests are billed to and governed by your account with that company, and we are not the account holder. If instead you use the shared coach, the request goes to the same place but on our account rather than yours — see "The shared coach" below. If you connect Fitbit, your phone talks to Google directly (Google owns Fitbit and now provides its data to apps) using your own Google login. In every case, those companies' privacy policies apply to what they do with what they receive.
 
 ---
 
@@ -75,7 +75,7 @@ Two of these reads are broader than you might assume, and we would rather say so
 
 *a) If you use the AI coach.* Three Health-derived values are included in the coach's context: today's step count, an average workout heart rate figure, and your Health-recorded body weight, plus your readiness score as a single 0–100 number. Full detail in the next section.
 
-*b) If you enter a challenge or league that races on a Health metric.* The app uploads daily totals for only the metrics you are actively competing on — steps, walking+running distance, running distance, running time. If you have not joined anything that races on a metric, that metric is never even read from Health, let alone uploaded. Uploads cover a rolling 35-day window so that totals stay correct if you were offline. What our server receives for these is a per-day figure, which over time forms a daily record of those activity totals for as long as you have an account.
+*b) If you enter a challenge or league that races on an activity metric.* The app uploads daily totals for only the metrics you are actively competing on — steps, walking+running distance, running distance, running time. If you have not joined anything that races on a metric, that metric is never even read, let alone uploaded. Steps and walking+running distance come from whichever activity source you chose, Apple Health or Fitbit, and are treated identically either way; running distance and running time always come from Apple Health. Uploads cover a rolling 35-day window so that totals stay correct if you were offline. What our server receives for these is a per-day figure, which over time forms a daily record of those activity totals for as long as you have an account.
 
 Sleep, resting heart rate, heart rate variability, cycling distance, and your all-time journey mileage are never transmitted anywhere, under any setting.
 
@@ -132,13 +132,19 @@ Your conversation history for the current chat is sent with each turn, because t
 
 ## Fitbit
 
-Optional, off unless you connect it. It exists for people who track sleep with a Fitbit rather than an Apple Watch, because Fitbit does not write into Apple Health.
+Optional, off unless you connect it. It exists for people who track sleep and steps with a Fitbit rather than an Apple Watch, because Fitbit does not write into Apple Health.
 
-You authorize it through Fitbit's own sign-in page, using PKCE with no client secret. There is no server in the path: your phone talks to Fitbit directly. The app requests two scopes, `sleep` and `heartrate`, and nothing else. Your Fitbit tokens are stored in your device's Keychain, marked not to sync to iCloud, and are never sent to our servers.
+Fitbit data now reaches apps through Google, which owns Fitbit and is retiring the older Fitbit developer interface. So you authorize this with the Google account your Fitbit is linked to, on Google's own sign-in page, using PKCE with no client secret. There is no server of ours in the path: your phone talks to Google directly. The app requests three read-only permissions and nothing else — sleep, health metrics and measurements (which covers resting heart rate and heart rate variability), and activity and fitness (which covers steps and distance). It asks for no permission to write anything back, and none to read your profile, so it is never told your name. Your tokens are stored in your device's Keychain, marked not to sync to iCloud, and are never sent to our servers.
 
-The app pulls sleep stages, resting heart rate, and heart rate variability, holds them in memory only, and folds them into your readiness score. Nothing from Fitbit is written to the app's database, and no Fitbit reading is ever sent to the AI coach or to our server. The coach sees only the readiness number.
+**Sleep and heart rate stay on your phone.** The app pulls sleep stages, resting heart rate, and heart rate variability, holds them in memory only, and folds them into your readiness score. None of it is written to the app's database, and none of it is ever sent to the AI coach or to our server. The coach sees only the readiness number.
 
-Disconnecting clears the tokens from your Keychain immediately and asks Fitbit to revoke them. The local clearing always happens; the revocation is a best-effort network call, so if you disconnect while offline you may also want to remove the app from your Fitbit account settings.
+**Steps and distance can leave your phone, but only if you make them compete.** If you choose Fitbit as your activity source, your daily step and distance totals are used for challenges and leagues exactly as Apple Health's are — which means a daily total is sent to our server when, and only when, you join something that races on it. Joining is the consent. Until you join, nothing is uploaded. This is the same rule, and the same server, as for Apple Health activity data; the source you picked makes no difference to how it is treated. Nothing else Fitbit measures is ever uploaded.
+
+Only one source counts your steps. If you connect Fitbit, you choose whether steps and distance come from Apple Health or from Fitbit, and the app never adds the two together.
+
+Disconnecting clears the tokens from your Keychain immediately and asks Google to revoke them. The local clearing always happens; the revocation is a best-effort network call, so if you disconnect while offline you may also want to remove the app from your Google account's third-party access settings.
+
+While this app is still in testing with Google, the permission you grant lasts seven days and then has to be granted again. The app will tell you when that happens. Nothing is lost in the meantime, and no data is read while the connection is lapsed.
 
 Fitbit is only active in builds configured with a Fitbit connection. If the
 App integrations screen in your copy of the app shows Fitbit as unavailable,
@@ -249,7 +255,7 @@ Two separate controls, because they do different things.
 - the widget's snapshot of your streak and readiness, so the home screen stops showing figures whose source has been deleted;
 - any export file still sitting in the app's temporary folder.
 
-It also deletes from Apple Health the workouts this app wrote there, leaving anything recorded by other apps or your watch untouched. If Fitbit is connected it disconnects it, and asks Fitbit to revoke the token as well as clearing it locally.
+It also deletes from Apple Health the workouts this app wrote there, leaving anything recorded by other apps or your watch untouched. If Fitbit is connected it disconnects it, and asks Google to revoke the token as well as clearing it locally.
 
 **What it does not do is delete your account on our server.** It signs you out of that account on this device, but the account itself and everything listed under "Delete account" below survive, and signing in again brings you back to the same one. The two controls are deliberately separate, and you are free to use both.
 
@@ -348,12 +354,14 @@ Every path is relative to the repository root, `/Users/miklee/dev/AI_Workout_App
 - Anthropic as a user-selectable provider: `backend/src/providers/anthropic.ts`, `ios/AIWorkout/Core/AICoachConfig.swift:11-45`
 
 ### Fitbit
-- PKCE, no client secret, scopes `sleep` and `heartrate`, redirect `aiworkout://fitbit-auth`: `ios/AIWorkout/Core/Integrations/Fitbit/FitbitOAuth.swift:54`, `FitbitConfig.swift`, `ios/Config.xcconfig:43`
-- Tokens in Keychain, this-device-only: `ios/AIWorkout/Core/Integrations/Fitbit/FitbitTokenStore.swift:36-58`
-- Endpoints and fields pulled; memory-only, no persistence: `ios/AIWorkout/Core/Integrations/Fitbit/FitbitAPI.swift`, `FitbitManager.swift`
+- PKCE, no client secret, three read-only Google Health scopes, redirect derived from the iOS client id: `ios/AIWorkout/Core/Integrations/Fitbit/GoogleHealthOAuth.swift`, `GoogleHealthConfig.swift`, `ios/Config.xcconfig`
+- Tokens in Keychain, this-device-only: `ios/AIWorkout/Core/Integrations/Fitbit/GoogleHealthTokenStore.swift`
+- Endpoints and fields pulled; readiness readings memory-only, no persistence: `ios/AIWorkout/Core/Integrations/Fitbit/GoogleHealthAPI.swift`, `FitbitManager.swift`
+- Steps and distance uploaded only for a metric the lifter has joined something on: `ios/AIWorkout/Core/Competition/MetricSyncService.swift` (`activeMetrics()` gate), `ios/AIWorkout/Core/Integrations/ActivityTotalsProvider.swift`
+- One activity source, never summed: `ActivityTotalsProvider.combining`, `ios/AIWorkout/Core/Integrations/ActivitySource.swift`
 - Coach sees only score/band/flag: `TrainerContextBuilder.swift:192-197`
 - Disconnect clears locally then attempts revocation: `FitbitManager.swift` `disconnect()`
-- Inert without a client id: `FitbitConfig.isConfigured`, `ios/Config.xcconfig:38`, `ios/AIWorkout/Features/Settings/IntegrationsSettingsView.swift:37, 104, 157-158`
+- Inert without a client id: `GoogleHealthConfig.isConfigured`, `ios/Config.xcconfig`, `ios/AIWorkout/Features/Settings/IntegrationsSettingsView.swift`
 
 ### Home location and journeys
 - Typed address only, no `CLLocationManager` anywhere: `ios/AIWorkout/Features/Adventure/HomeLocationEditor.swift`
@@ -368,7 +376,7 @@ Every path is relative to the repository root, `/Users/miklee/dev/AI_Workout_App
 - Eleven SwiftData models: `ios/AIWorkout/Debug/AppModelContainer.swift:13-25`
 - Local-only container, no CloudKit argument and no CloudKit entitlement: `AppModelContainer.swift:38`; entitlements files
 - Widget snapshot contents (no name, no identifier, no raw health values): `ios/Shared/WidgetSnapshot.swift:12-38, 124-137`
-- Three Keychain items, all this-device-only: `AICoachConfig.swift:107-133`, `ios/AIWorkout/Core/Competition/TokenStore.swift:18-44`, `FitbitTokenStore.swift:36-58`
+- Three Keychain items, all this-device-only: `AICoachConfig.swift:107-133`, `ios/AIWorkout/Core/Competition/TokenStore.swift:18-44`, `GoogleHealthTokenStore.swift`
 - Install identifier is local and only hashed locally: `ios/AIWorkout/Core/AvatarIdentity.swift:21-22`
 - Export contents: `ios/AIWorkout/Features/Settings/WorkoutDataExport.swift`
 - Local notifications only; no `aps-environment`, no remote-notification registration: `ios/AIWorkout/Features/Notifications/NotificationScheduler.swift:6-9`, entitlements files
@@ -406,6 +414,6 @@ Every path is relative to the repository root, `/Users/miklee/dev/AI_Workout_App
 ### Transport and general
 - HTTPS to both AWS endpoints: `infra/template.yaml:394` and the Lambda Function URL output
 - App Transport Security has only `NSAllowsLocalNetworking`, with no arbitrary-loads exception: `ios/AIWorkout/Info.plist`
-- Cryptography limited to SHA-256 for PKCE and the Sign in with Apple nonce: `ios/AIWorkout/Core/Integrations/Fitbit/FitbitOAuth.swift:54`, `ios/AIWorkout/Features/Account/AccountSignInView.swift:104`
+- Cryptography limited to SHA-256 for PKCE and the Sign in with Apple nonce: `ios/AIWorkout/Core/Integrations/Fitbit/GoogleHealthOAuth.swift`, `ios/AIWorkout/Features/Account/AccountSignInView.swift:104`
 - Refresh tokens hashed server-side: `server/src/crypto.ts`
 - No birthday collected; optional birth year is local only: `ios/AIWorkout/Features/Settings/ProfileEditorView.swift:69-75`, `ios/AIWorkout/Models/ProgramModels.swift:34`, used at `ios/AIWorkout/Features/Tracks/TracksBridge.swift:48`
