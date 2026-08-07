@@ -1,7 +1,7 @@
 # WorkoutSmith — Privacy Policy
 
 **Effective date:** July 30, 2026
-**Last updated:** 2026-07-30
+**Last updated:** 2026-08-07
 
 ---
 
@@ -10,7 +10,7 @@
 WorkoutSmith is a training app. It is built so that the things you would least want to leak — your workouts, your body, your sleep, your heart rate, where you live — stay on your iPhone.
 
 - **Your training history and health data live on your phone**, in the app's own storage. There is no account required to use them, and they are not uploaded to us.
-- **We run one server**, and it exists only for the social features: signing in, your friends list, challenges, leagues, and trophies. It holds your name, a handle, an avatar id, and the numbers for the specific metrics you chose to compete on. Nothing else.
+- **We run one server**, and it exists only for the social features: signing in, your friends list, challenges, leagues, and trophies. It holds your name, a handle, an avatar id, an unreadable fingerprint of your email address so friends who know it can send you a request, and the numbers for the specific metrics you chose to compete on. Nothing else.
 - **We do not run ads, we do not use analytics or crash-reporting SDKs, and we do not track you.** There is no advertising identifier in this app and no third-party code that could collect one.
 - **We do not sell your data. We never have and there is no mechanism in the app that could.**
 - **The AI coach is optional.** When you use it, a summary of your training goes to Google or Anthropic. What is in that summary is listed in full below. Normally you bring your own API key and it is billed to your own account; there is also a capped shared option for people who have no key, where the same request is billed to ours instead. Both are described below.
@@ -52,6 +52,7 @@ The following are stored on your iPhone and are not transmitted to our server, t
 - Your injuries, goals, experience level, and equipment notes, except where they are included in a coach request (see the AI coach section — this is the one exception, and it is under your control).
 - Your birth year, biological sex, and hand-entered bodyweight. These are optional, used only for local strength-standard tables, and are sent nowhere.
 - Sleep duration, resting heart rate, and heart rate variability. These are read from Apple Health or Fitbit, converted into a single readiness score on the device, and the underlying readings are never transmitted. Not to us, not to the AI.
+- The training profile the app builds about you. From your logged workouts alone, the app works out how you train: what you have shown you can lift on each exercise, how reliably your reps-in-reserve reports match what you then do, how often you make a prescribed weight increase, and which exercises you swap or skip. It is computed on your phone, stored on your phone, and never sent to our server. If you use the AI coach, a few sentences summarising it are included in the coach request — that summary is listed in the coach section below, and it is the only part of this that goes anywhere. Nothing here is asked of you: it is all counted from workouts you had already logged, and deleting your data deletes it with them.
 - Your home coordinate for the Adventure journeys (see its own section below).
 - Your AI provider key, your Fitbit tokens, and your sign-in tokens, which are held in the iOS Keychain.
 
@@ -75,7 +76,17 @@ Two of these reads are broader than you might assume, and we would rather say so
 
 *a) If you use the AI coach.* Three Health-derived values are included in the coach's context: today's step count, an average workout heart rate figure, and your Health-recorded body weight, plus your readiness score as a single 0–100 number. Full detail in the next section.
 
-*b) If you enter a challenge or league that races on an activity metric.* The app uploads daily totals for only the metrics you are actively competing on — steps, walking+running distance, running distance, running time. If you have not joined anything that races on a metric, that metric is never even read, let alone uploaded. Steps and walking+running distance come from whichever activity source you chose, Apple Health or Fitbit, and are treated identically either way; running distance and running time always come from Apple Health. Uploads cover a rolling 35-day window so that totals stay correct if you were offline. What our server receives for these is a per-day figure, which over time forms a daily record of those activity totals for as long as you have an account.
+If you wear an Apple Watch with the WorkoutSmith watch app during a workout, one more value is included while that workout is running: your heart rate at that moment, as a single number. It is measured on the watch, sent to your iPhone, and held in memory for the length of the session — it is never written to the app's database, never uploaded to our server, and it is dropped from the coach's context as soon as it stops being current. It is the only reading in the app that describes your body right now rather than your training, and it is there because it is the one thing your phone cannot measure while it sits on the bench beside you.
+
+*b) If you make an activity metric compete or share.* The app uploads daily totals for only the metrics you have opted in, and there are three ways to opt one in, all of them things you do on purpose:
+
+- you **join a challenge** that races on that metric;
+- you **enrol in a league** on that metric;
+- you set that metric to **Friends** or **Global** on the sharing screen (Compete → the privacy button → "What you share").
+
+The third of these covers the friends board: setting steps to Friends is what puts your weekly step total on the boards your friends see, and it is what causes those totals to be uploaded. Before this release, setting a metric to Friends changed who *could* see it but never caused anything to be uploaded, so the board stayed empty; the setting now does what it says.
+
+If you have done none of the three for a metric, that metric is never even read, let alone uploaded. Setting a metric back to Private, leaving a league, or having a challenge end stops the uploads for it. The metrics are steps, walking+running distance, running distance, and running time. Steps and walking+running distance come from whichever activity source you chose, Apple Health or Fitbit, and are treated identically either way; running distance and running time always come from Apple Health. Uploads cover a rolling 35-day window so that totals stay correct if you were offline. What our server receives for these is a per-day figure, which over time forms a daily record of those activity totals for as long as you have an account.
 
 Sleep, resting heart rate, heart rate variability, cycling distance, and your all-time journey mileage are never transmitted anywhere, under any setting.
 
@@ -112,11 +123,12 @@ For rate limiting, the relay records a counter keyed to your device's IP address
 | Program | Program name, length, days per week, session names and their muscle groups |
 | Today | Today's session and its exercises with target sets, reps, and weight |
 | Recent workouts | Up to five, with date, session name, and the actual reps and weights you logged |
-| Live set | Current exercise, set number, and what you have logged so far, while a workout is running |
+| Live set | Current exercise, set number, and what you have logged so far, while a workout is running — plus your heart rate at that moment, if you are wearing an Apple Watch running the WorkoutSmith watch app during the workout |
 | Health | Today's step count, an average workout heart rate, and your Health-recorded body weight |
 | Readiness | A score from 0 to 100, its band label, and whether Health data contributed |
 | Fatigue | A plain-text fatigue summary and any deload recommendation |
 | Milestones | A one-line note when you level up, and the outcome of a set the coach logged for you |
+| What the app has learned about you | A few sentences summarising patterns counted from your own logged workouts: where prescribed weight increases have landed and where you have stalled, which way your reps-in-reserve reports lean against what you then lifted, an exercise you have repeatedly swapped for another, and one you have repeatedly skipped |
 
 Your conversation history for the current chat is sent with each turn, because that is how a conversation works.
 
@@ -138,7 +150,7 @@ Fitbit data now reaches apps through Google, which owns Fitbit and is retiring t
 
 **Sleep and heart rate stay on your phone.** The app pulls sleep stages, resting heart rate, and heart rate variability, holds them in memory only, and folds them into your readiness score. None of it is written to the app's database, and none of it is ever sent to the AI coach or to our server. The coach sees only the readiness number.
 
-**Steps and distance can leave your phone, but only if you make them compete.** If you choose Fitbit as your activity source, your daily step and distance totals are used for challenges and leagues exactly as Apple Health's are — which means a daily total is sent to our server when, and only when, you join something that races on it. Joining is the consent. Until you join, nothing is uploaded. This is the same rule, and the same server, as for Apple Health activity data; the source you picked makes no difference to how it is treated. Nothing else Fitbit measures is ever uploaded.
+**Steps and distance can leave your phone, but only if you make them compete or share.** If you choose Fitbit as your activity source, your daily step and distance totals are used for challenges, leagues and the friends board exactly as Apple Health's are — which means a daily total is sent to our server when, and only when, you have opted that metric in one of the three ways listed above (joined a challenge on it, enrolled in a league on it, or set it to Friends or Global). Until you do one of those, nothing is uploaded. This is the same rule, and the same server, as for Apple Health activity data; the source you picked makes no difference to how it is treated. Nothing else Fitbit measures is ever uploaded.
 
 Only one source counts your steps. If you connect Fitbit, you choose whether steps and distance come from Apple Health or from Fitbit, and the app never adds the two together.
 
@@ -168,9 +180,16 @@ Once converted, **only the latitude and longitude are saved, never the address t
 
 The server exists only for Compete. If you never sign in, you have no record on it at all.
 
-**Signing in.** Sign in with Apple gives us a stable identifier Apple generates for this app, which is what we store as your account. Apple may also send an email address; the app receives it and **deliberately discards it — no email address is written to our database**, so we hold no way to email you. You may supply a display name.
+**Signing in.** Sign in with Apple gives us a stable identifier Apple generates for this app, which is what we store as your account. You may supply a display name.
 
-**What your account record contains.** An internal id, the Apple identifier, your display name, your public handle if you set one, and your avatar id.
+**Your email address, and what we actually keep.** Apple also sends an email address when you sign in. **We do not store it.** What we store instead is a *keyed fingerprint* of it: the address run through a one-way function under a secret key that is not in the database. It cannot be turned back into your address, and we hold no way to email you. It exists for exactly one purpose — so that a friend who already knows your address can send you a friend request, by our comparing fingerprints rather than by our knowing addresses.
+
+**Friend requests by email.** When you send one, the address you typed is fingerprinted the same way and compared. Two things follow, and both are deliberate:
+
+- **We never tell you whether that address has an account.** The reply is identical, to the letter and to the millisecond, whether it matched somebody or nobody. Otherwise this screen would be a way to find out who uses a fitness app, which is not yours or ours to disclose.
+- **If it matched nobody, the fingerprint is kept for up to 30 days** — never the address itself — solely so that if that person signs up with it inside the window, your request is waiting for them instead of being lost. It becomes a request they can accept *or decline*, never an automatic friendship. It is deleted the moment it is used, when it expires, or when you delete your account, whichever comes first, and it is used for nothing else: no email is ever sent, and nothing is shared with anyone.
+
+**What your account record contains.** An internal id, the Apple identifier, the email fingerprint described above, your display name, your public handle if you set one, and your avatar id.
 
 **Avatars are not photos.** There is no photo upload. An avatar is one of 256 preset combinations of a system icon and a colour palette, stored as a short text id and validated against that fixed list.
 
@@ -180,10 +199,11 @@ The server exists only for Compete. If you never sign in, you have no record on 
 |---|---|
 | Sessions | Your sign-in sessions, including a hash of the refresh token (not the token), plus the IP address and device user-agent of the sign-in |
 | Sharing settings | Which metrics you have chosen to share, and with whom |
-| Friends | Who you are friends with, and unredeemed invite codes |
+| Friends | Who you are friends with, unredeemed invite codes, friend requests waiting for an answer, and email fingerprints for requests sent to addresses that have no account yet (kept 30 days, see above) |
 | Challenges | The challenges you are in, their format and metric, your goal, and your state |
 | Cheers | Which of four fixed emotes you sent to whom. There is no free-text messaging between users anywhere in this app |
-| Metric values | The activity numbers for the metrics you compete on, as individual entries and as daily totals |
+| Metric values | The activity numbers for the metrics you compete on or share, as individual entries and as daily totals |
+| Daily goals | The daily step goal you set for the friends board. It is yours: it is used to work out your own percentage, and it is not shown to anyone else |
 | Trophies | Placement, medal, metric, score, and the display name you had at the time |
 | Leagues | Your division, weekly score, rank, and outcome |
 | Feedback | Anything you submit through the in-app feedback form (see below) |
@@ -196,7 +216,9 @@ The server exists only for Compete. If you never sign in, you have no record on 
 ## Who can see what
 
 - **Private by default.** Every metric starts private. Nobody sees any of your numbers until you change a setting. This is structural rather than a stored default: with no sharing row, the answer to "can this person see it" is no.
-- **Friends** see your display name, avatar, and the specific metrics you set to friends-level sharing, plus standings in challenges you are both in. Friends are added by invite code only; there is no directory or user search.
+- **Friends** see your display name, avatar, and the specific metrics you set to friends-level sharing, plus standings in challenges you are both in. Friends are added two ways and no others: by an invite code shared out of band, or by a request sent to an email address someone already knows. **There is still no directory and no user search** — nothing anywhere lets you look up who has an account, including the email path, which never reports whether an address matched.
+- **A friend request tells the person who sent it nothing.** If you decline one, the sender is not notified and sees no change; from their side the request simply stays sent. Accepting is the only outcome they learn about, because becoming someone's friend is visible by its nature.
+- **The friends board** shows, for each metric you set to Friends, your total for the last seven days, how many of those days had a total, and how much of your own daily goal you reached. It never shows your goal itself, and a day you did not record is shown as having no update rather than as a zero. A friend who has shared nothing appears on nobody's board.
 - **Challenges** are visible only to their participants. Someone who is not in a challenge cannot see that it exists, even if they are your friend.
 - **Global leagues** are opt-in and require you to pick a public handle first. Global boards show **only** your handle, avatar, score, and rank — never your display name. There is an automated test in the codebase asserting that no global response can serialize a display name or the Apple identifier. Global boards do also carry your internal account id, which is a random string not derived from your Apple identifier, but it is stable and visible to others in your cohort.
 - **Turning global sharing off removes you from leagues immediately.**
@@ -212,8 +234,11 @@ You can send anonymously. When you do, the decision is made on the server, not t
 Screenshots are stored in the same database as the rest of the feedback, not in a public bucket, and are never shown to other users.
 
 For triage, feedback submissions are also copied to a private spreadsheet
-accessible only to the developer. When you delete your account, the identifying
-fields of your rows in that copy are removed as part of honoring the deletion.
+accessible only to the developer, and a screenshot you attached is copied to a
+private Google Drive folder that the spreadsheet links to. Neither the folder
+nor the images in it are link-shared or public. When you delete your account,
+the identifying fields of your rows in that copy are removed and the copied
+screenshot is deleted, as part of honoring the deletion.
 
 ---
 
@@ -259,7 +284,7 @@ It also deletes from Apple Health the workouts this app wrote there, leaving any
 
 **What it does not do is delete your account on our server.** It signs you out of that account on this device, but the account itself and everything listed under "Delete account" below survive, and signing in again brings you back to the same one. The two controls are deliberately separate, and you are free to use both.
 
-**"Delete account" (Settings).** Deletes your account on our server. This is deliberately separate: your on-device workouts survive it. It removes your profile, your handle and Apple-identifier records, your sessions, your sharing settings, your friendships in both directions, your invite codes, your metric values and daily totals, your league enrolments and memberships, your challenge participations, and your change history. Challenges you created are removed along with their rosters and cheers.
+**"Delete account" (Settings).** Deletes your account on our server. This is deliberately separate: your on-device workouts survive it. It removes your profile, your handle, Apple-identifier and email-fingerprint records, your sessions, your sharing settings, your friendships in both directions, your invite codes, the friend requests you sent and received, any waiting invitations you sent to addresses with no account, your metric values and daily totals, your league enrolments and memberships, your challenge participations, and your change history. Challenges you created are removed along with their rosters and cheers.
 
 Two things survive by design, and you should know before you press it:
 - **Trophies stay, anonymized.** Removing them would corrupt other people's competition histories. Your account id is cleared and your name is replaced with "Departed athlete", but the placement, metric, and score remain attached to that past challenge.
@@ -294,7 +319,7 @@ We reviewed the app against the features that typically raise child-safety quest
 - There is **no free-text messaging between users**. Encouragement is limited to four fixed emotes.
 - There are **no user-supplied challenge names or descriptions**; every challenge title comes from a fixed set of formats.
 - There is **no photo sharing between users**. Avatars are preset icons. The only image upload anywhere is a screenshot you attach to feedback, which goes to the developer and to no other user.
-- There is **no user search or directory**. Friends are added only by an invite code shared out of band.
+- There is **no user search or directory**. Friends are added by an invite code shared out of band, or by a request sent to an email address the sender already knows — and that request never reveals whether the address has an account, so it cannot be used to find anyone.
 - Nothing is public by default. Global visibility requires deliberately opting a metric to global and choosing a handle.
 - The app collects no birthday. An optional birth *year* field exists in Settings for strength-standard tables; it stays on the device and is never sent to our server.
 
@@ -333,7 +358,8 @@ Every path is relative to the repository root, `/Users/miklee/dev/AI_Workout_App
 - No background delivery, no observer queries, no `UIBackgroundModes`: no matches for `HKObserverQuery` / `enableBackgroundDelivery` / `HKAnchoredObjectQuery` in `ios/`; `ios/AIWorkout/Info.plist`
 - Usage strings (and the gap): `ios/AIWorkout/Info.plist:55-58`
 - Health values in coach context: `ios/AIWorkout/Core/TrainerContextBuilder.swift:64-78, 192-209`, `ios/AIWorkout/Features/Chat/ChatView.swift:406-419`
-- Health metrics to the competition server, and the gate that reads nothing unless you have joined: `ios/AIWorkout/Core/Competition/MetricSyncService.swift:84-85, 119-121, 169-191, 201-212`
+- Live heart rate from the watch: measured in `ios/AIWorkoutWatch/WatchWorkoutSession.swift`, throttled by `ios/ProgressionEngine/Sources/WatchLink/HeartRateThrottle.swift`, held in memory only by `ios/AIWorkout/Core/CurrentWorkoutState.swift` (`recordHeartRate`, dropped past 90 seconds and on `clear()`), and reaching the coach at `TrainerContextBuilder.swift` `buildActiveSession`. It appears in no SwiftData model, no export, no widget snapshot, and no server payload
+- Health metrics to the competition server, and the gate that reads nothing until you have opted a metric in: `ios/AIWorkout/Core/Competition/MetricSyncService.swift` (`activeMetrics()`, which fetches) calling `ios/ProgressionEngine/Sources/CompetitionKit/MetricUploadConsent.swift` (which decides, and is the single place the three opt-in routes are resolved). The rule is unit-tested case by case in `MetricUploadConsentTests.swift`, including that a private scope opts nothing in and that a metric keeps uploading until the *last* route to it closes.
 - 35-day window: `MetricSyncService.swift:41`
 
 ### The AI coach
@@ -357,7 +383,10 @@ Every path is relative to the repository root, `/Users/miklee/dev/AI_Workout_App
 - PKCE, no client secret, three read-only Google Health scopes, redirect derived from the iOS client id: `ios/AIWorkout/Core/Integrations/Fitbit/GoogleHealthOAuth.swift`, `GoogleHealthConfig.swift`, `ios/Config.xcconfig`
 - Tokens in Keychain, this-device-only: `ios/AIWorkout/Core/Integrations/Fitbit/GoogleHealthTokenStore.swift`
 - Endpoints and fields pulled; readiness readings memory-only, no persistence: `ios/AIWorkout/Core/Integrations/Fitbit/GoogleHealthAPI.swift`, `FitbitManager.swift`
-- Steps and distance uploaded only for a metric the lifter has joined something on: `ios/AIWorkout/Core/Competition/MetricSyncService.swift` (`activeMetrics()` gate), `ios/AIWorkout/Core/Integrations/ActivityTotalsProvider.swift`
+- Steps and distance uploaded only for a metric the lifter has opted in (joined a challenge or league on it, or set it to Friends or Global): `CompetitionKit/MetricUploadConsent.swift` (the rule), `ios/AIWorkout/Core/Competition/MetricSyncService.swift` (`activeMetrics()` gate), `ios/AIWorkout/Core/Integrations/ActivityTotalsProvider.swift`
+- An unanswered, declined or abandoned challenge invitation is **not** consent: `MetricUploadConsent.swift` (accepted participants only), test `MetricUploadConsentTests.testAnUnansweredOrRefusedInvitationIsNotConsent`
+- The friends board reads only what each person volunteered, and omits a day nobody recorded rather than reporting it as zero: `server/src/friends-summary.ts`, `server/src/board-scoring.ts`, contract test `server/test/store-contract.ts` ("omits a day with no counting total rather than reporting it as zero")
+- Your daily goal is never sent to anyone else: `server/src/friends-summary.ts` (`goal` is present only on the caller's own row), test `server/test/friends-summary.test.ts` ("never shows another person daily goal, only the caller own")
 - One activity source, never summed: `ActivityTotalsProvider.combining`, `ios/AIWorkout/Core/Integrations/ActivitySource.swift`
 - Coach sees only score/band/flag: `TrainerContextBuilder.swift:192-197`
 - Disconnect clears locally then attempts revocation: `FitbitManager.swift` `disconnect()`
@@ -391,7 +420,11 @@ Every path is relative to the repository root, `/Users/miklee/dev/AI_Workout_App
 ### The server
 - Deployed store is DynamoDB, single table `aiworkout-prod`; SQLite is local development only: `server/src/lambda.ts`, `server/src/index.ts`, `infra/template.yaml:72-134, 193`
 - Full entity and field list: `server/src/store/types.ts`, `server/src/store/dynamo.ts:117-232`
-- Apple email received and discarded; no email field exists on the user record: `server/src/apple.ts:81-86`, `server/src/app.ts:187-190`, `server/src/users.ts:12-35`, `server/src/store/types.ts:33-48`
+- Apple email kept only as a keyed HMAC under a server-side secret, never as an address; the hashing is the only thing done with it: `server/src/email-identity.ts`, `server/src/users.ts` (`upsertUserByAppleSub`, `recordEmailHash`), `server/src/store/types.ts` (`UserRow.email_hash`)
+- No email address is written to any table, asserted by a test that reads every text column of every table after a request is sent: `server/test/friend-requests.test.ts` ("never stores an email address in any readable form")
+- A friend request answers a match and a miss with identical bytes, an identical status and a padded identical response time: `server/src/friend-requests.ts`, `server/src/app.ts` (`POST /friends/requests`), tests in `server/test/friend-requests.test.ts` ("enumeration defence")
+- An address with no account is kept only as a fingerprint, for 30 days, and converts to a request the new account may decline: `server/src/friend-requests.ts` (`convertPendingInvites`), `server/src/store/types.ts` (`PendingInviteRow`), tests "an invitation to somebody who has not joined yet"
+- Declining notifies nobody and writes no change for the sender: `server/src/friend-requests.ts` (`declineFriendRequest`), test "decline is invisible to the requester"
 - Global boards expose handle, avatar, score, rank, and internal id only: `server/src/leagues.ts:482-501, 534-545`; test asserting no name or Apple id leaks: `server/test/handle-anonymity.test.ts`
 - Handle required before global sharing or leagues: `server/src/app.ts:409-414, 678-683`
 - Sharing private by default, structurally: `server/src/shares.ts:21-37, 63-66`, `server/src/app.ts:390-395`, `server/src/metrics.ts:52-57`
