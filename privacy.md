@@ -1,7 +1,7 @@
 # WorkoutSmith — Privacy Policy
 
 **Effective date:** July 30, 2026
-**Last updated:** 2026-08-07
+**Last updated:** 2026-08-08
 
 ---
 
@@ -202,6 +202,7 @@ The server exists only for Compete. If you never sign in, you have no record on 
 | Friends | Who you are friends with, unredeemed invite codes, friend requests waiting for an answer, and email fingerprints for requests sent to addresses that have no account yet (kept 30 days, see above) |
 | Challenges | The challenges you are in, their format and metric, your goal, and your state |
 | Cheers | Which of four fixed emotes you sent to whom. There is no free-text messaging between users anywhere in this app |
+| Live presence | Only if you turn on "Live" sharing (it is off until you do): a short-lived marker that you are mid-workout right now, with the kind of activity and a broad effort band — never a heart-rate number, never a location. It expires on its own within about fifteen minutes, it is deleted the instant you finish or turn the setting off, and while the setting is off nothing is stored at all — not stored-and-hidden: not stored |
 | Metric values | The activity numbers for the metrics you compete on or share, as individual entries and as daily totals |
 | Daily goals | The daily step goal you set for the friends board. It is yours: it is used to work out your own percentage, and it is not shown to anyone else |
 | Trophies | Placement, medal, metric, score, and the display name you had at the time |
@@ -216,7 +217,7 @@ The server exists only for Compete. If you never sign in, you have no record on 
 ## Who can see what
 
 - **Private by default.** Every metric starts private. Nobody sees any of your numbers until you change a setting. This is structural rather than a stored default: with no sharing row, the answer to "can this person see it" is no.
-- **Friends** see your display name, avatar, and the specific metrics you set to friends-level sharing, plus standings in challenges you are both in. Friends are added two ways and no others: by an invite code shared out of band, or by a request sent to an email address someone already knows. **There is still no directory and no user search** — nothing anywhere lets you look up who has an account, including the email path, which never reports whether an address matched.
+- **Friends** see your display name, avatar, and the specific metrics you set to friends-level sharing, plus standings in challenges you are both in. If — and only if — you turn on Live sharing, friends also see the short-lived mid-workout marker described above while a workout is running; it can never be set to public. Friends are added two ways and no others: by an invite code shared out of band, or by a request sent to an email address someone already knows. **There is still no directory and no user search** — nothing anywhere lets you look up who has an account, including the email path, which never reports whether an address matched.
 - **A friend request tells the person who sent it nothing.** If you decline one, the sender is not notified and sees no change; from their side the request simply stays sent. Accepting is the only outcome they learn about, because becoming someone's friend is visible by its nature.
 - **The friends board** shows, for each metric you set to Friends, your total for the last seven days, how many of those days had a total, and how much of your own daily goal you reached. It never shows your goal itself, and a day you did not record is shown as having no update rather than as a zero. A friend who has shared nothing appears on nobody's board.
 - **Challenges** are visible only to their participants. Someone who is not in a challenge cannot see that it exists, even if they are your friend.
