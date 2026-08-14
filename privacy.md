@@ -1,7 +1,7 @@
 # WorkoutSmith — Privacy Policy
 
 **Effective date:** July 30, 2026
-**Last updated:** 2026-08-08
+**Last updated:** 2026-08-14
 
 ---
 
@@ -53,6 +53,7 @@ The following are stored on your iPhone and are not transmitted to our server, t
 - Your birth year, biological sex, and hand-entered bodyweight. These are optional, used only for local strength-standard tables, and are sent nowhere.
 - Sleep duration, resting heart rate, and heart rate variability. These are read from Apple Health or Fitbit, converted into a single readiness score on the device, and the underlying readings are never transmitted. Not to us, not to the AI.
 - The training profile the app builds about you. From your logged workouts alone, the app works out how you train: what you have shown you can lift on each exercise, how reliably your reps-in-reserve reports match what you then do, how often you make a prescribed weight increase, and which exercises you swap or skip. It is computed on your phone, stored on your phone, and never sent to our server. If you use the AI coach, a few sentences summarising it are included in the coach request — that summary is listed in the coach section below, and it is the only part of this that goes anywhere. Nothing here is asked of you: it is all counted from workouts you had already logged, and deleting your data deletes it with them.
+- The change journal for a program a friend shared with you. When you adopt somebody else's program, your phone keeps a record of how each session actually went against how it was written — what you swapped, skipped, or re-targeted, and whether you or your AI coach made each change — together with an untouched copy of the program as it was originally sent to you. It is stored on your phone with the rest of your history and is not transmitted anywhere, with one exception you control: if you switch on share-back for that program, a summary of it is sent to the person who wrote it. That is described under "Programs shared between friends" below, it is off unless you turn it on, and turning it off deletes what they were shown.
 - Your home coordinate for the Adventure journeys (see its own section below).
 - Your AI provider key, your Fitbit tokens, and your sign-in tokens, which are held in the iOS Keychain.
 
@@ -128,6 +129,7 @@ For rate limiting, the relay records a counter keyed to your device's IP address
 | Readiness | A score from 0 to 100, its band label, and whether Health data contributed |
 | Fatigue | A plain-text fatigue summary and any deload recommendation |
 | Milestones | A one-line note when you level up, and the outcome of a set the coach logged for you |
+| Where a program came from | If you adopted a program someone else shared with you, a marker saying that this plan or session name was written by another person, and the times it was shared and adopted. Never their name, handle, email, or user id, and no text beyond what the rows above already carry. It is here for your protection rather than the coach's interest: knowing which words came from someone else is what lets the app hand them to the coach as a label another person wrote, never as an instruction to follow |
 | What the app has learned about you | A few sentences summarising patterns counted from your own logged workouts: where prescribed weight increases have landed and where you have stalled, which way your reps-in-reserve reports lean against what you then lifted, an exercise you have repeatedly swapped for another, and one you have repeatedly skipped |
 
 Your conversation history for the current chat is sent with each turn, because that is how a conversation works.
@@ -168,11 +170,27 @@ none of this section applies to your data.
 
 The Adventure tab can turn your walking and running mileage into a trip outward from home. Setting a home is optional; without it the feature falls back to fixed comparisons like marathon counts and needs no location at all.
 
-**The app does not use location services.** There is no GPS access, no `CLLocationManager`, and no location permission prompt, because it never asks the device where you are. Instead you type an address or a town name into a text field.
-
-That typed text is converted to a coordinate by Apple's system geocoder, which means **the text you type is sent to Apple** the same way it is when you search in Maps. The app discloses this at the point you type it.
+**Your home is a place you type, not a place we detect.** You type an address or a town name into a text field. That typed text is converted to a coordinate by Apple's system geocoder, which means **the text you type is sent to Apple** the same way it is when you search in Maps. The app discloses this at the point you type it.
 
 Once converted, **only the latitude and longitude are saved, never the address text.** The app displays it back to you rounded to roughly a mile. The coordinate is used in exactly one place, to compute how far along a journey you are, and it is deliberately excluded from the coach context, the widget, the data export, and every server request. We verified all four.
+
+### The map's location button
+
+The Adventure map has a button that centres the map on where you are. **It is the only thing in this app that reads your location, it reads it once per tap, and it never keeps the answer.**
+
+- **You have to ask.** Nothing reads your location on launch, on opening the map, or in the background. The first time you tap the button, iOS shows you the standard permission prompt.
+- **One reading, not tracking.** The app requests a single position fix and the hardware stops. There is no continuous location session, no blue dot following you, no background location, and no "always" permission — the app asks only for "while using".
+- **Nothing is written down.** The coordinate is held in memory for as long as the map is on screen and is discarded when you leave it. It is not saved to the app's database, your preferences, the keychain, or the widget. It is never sent to our server, never given to the AI coach, and never included in an export. Closing the app forgets it completely.
+- **Saying no costs you nothing.** If you decline, the map tells you so in one line and everything else works exactly as before: you can set a home by typing an address, move the map to any address you type, and use every other feature. The app worked this way before the button existed.
+
+### Searching the map
+
+Two things on the map ask Apple a question on your behalf, and only when you ask them to:
+
+- **Typing an address** to move the map sends that text to Apple's geocoder, the same as setting a home does. The text is discarded afterwards and the map's position is not saved.
+- **"What's nearby"** sends the part of the world currently on your screen to Apple's local search service and shows you the parks, museums and similar places it finds. We do not store the results, and we do not build a database of places from what anybody searches for. The list is gone when you leave the tab.
+
+Both go to Apple as system services, exactly as they do in Maps. **Neither goes to our server**, and neither carries your account, your name, or anything else about you.
 
 ---
 
@@ -228,6 +246,18 @@ The server exists only for Compete. If you never sign in, you have no record on 
 - **Challenges** are visible only to their participants. Someone who is not in a challenge cannot see that it exists, even if they are your friend.
 - **Global leagues** are opt-in and require you to pick a public handle first. Global boards show **only** your handle, avatar, score, and rank — never your display name. There is an automated test in the codebase asserting that no global response can serialize a display name or the Apple identifier. Global boards do also carry your internal account id, which is a random string not derived from your Apple identifier, but it is stable and visible to others in your cohort.
 - **Turning global sharing off removes you from leagues immediately.**
+
+### Programs shared between friends
+
+You can send a workout program to a friend, and they can send one to you. This is the only feature where one person's content lands on another person's device, so it has its own rules.
+
+- **A shared program is a copy.** When you adopt a program a friend sent, you get your own copy of it. You can rename it, change the weights, swap exercises, or have your AI coach restructure it, and none of that reaches the person who wrote it unless you separately turn on share-back. Their original is untouched by anything you do, and your copy is yours.
+- **What travels with a program** is its name, its days, its exercises, the prescribed sets, reps, loads, rest and notes. Nothing about you goes with it, and nothing about the author comes with it beyond their name as a friend you already have.
+- **Sharing your results back is off unless you turn it on**, and it is a separate decision for each program you adopt. You are asked once, at the moment you adopt, and you can change the answer at any time in the privacy screen.
+- **What the author sees when it is on:** how many sessions of that program you have completed against how many it prescribed, what you actually lifted compared with what they wrote, which exercises you changed or skipped and whether you or your coach changed them, and your best sets on that program.
+- **What the author never sees, on or off:** any other training you do, your workout history, your chat with your coach, anything from Apple Health or Fitbit, your readiness or sleep or heart rate, your bodyweight, your location, or any program other than the one they gave you. The summary is built to carry counts and typical numbers only; it has no per-session detail in it and cannot be turned back into a training log.
+- **Turning it off deletes it.** Revoking share-back removes the summary from our server rather than hiding it, so the author stops being able to see it at all. Nothing further is sent from that point.
+- **Text other people wrote is treated as untrusted.** A program's name and notes are written by whoever shared it. Where that text is shown to your AI coach, it is explicitly marked as something another person wrote so the coach treats it as a label and never as an instruction, and the markers themselves are stripped from what people type so they cannot be forged.
 
 ---
 
@@ -406,13 +436,26 @@ Every path is relative to the repository root, `/Users/miklee/dev/AI_Workout_App
 - Inert without a client id: `GoogleHealthConfig.isConfigured`, `ios/Config.xcconfig`, `ios/AIWorkout/Features/Settings/IntegrationsSettingsView.swift`
 
 ### Home location and journeys
-- Typed address only, no `CLLocationManager` anywhere: `ios/AIWorkout/Features/Adventure/HomeLocationEditor.swift`
-- Geocoding call: `HomeLocationEditor.swift:172`; in-app disclosure at `:124-130`; displayed rounded at `:197`
+- Typed address only: `ios/AIWorkout/Features/Adventure/HomeLocationEditor.swift`
+- Geocoding call: `HomeLocationEditor.swift` `lookUp()`; in-app disclosure in `privacySection`; displayed rounded in `coordinateText`
 - Only the coordinate persisted; address held in view state and cleared: `ios/AIWorkout/Models/AppSettings.swift:153-157`, `ios/AIWorkout/Features/Adventure/JourneyBridge.swift:38-51`
 - Single consuming read site: `JourneyBridge.swift:28-29` (plus an `onChange` observation at `ios/AIWorkout/Features/Adventure/AdventureView.swift:112-113` that does not forward the value)
 - Absent from coach context (`TrainerContextBuilder.swift`), widget (`ios/AIWorkout/Core/WidgetSnapshotWriter.swift`), export (`ios/AIWorkout/Features/Settings/WorkoutDataExport.swift`), and all server payloads (no matches in `backend/`, `server/`, `ios/AIWorkout/Core/Competition/`)
 - Recap reduces to name/place/distance before the engine: `AdventureView.swift:231-236`
-- No location usage string, no location entitlement: `ios/AIWorkout/Info.plist`, `ios/AIWorkout/AIWorkout.entitlements`
+
+### The one-shot location read (added with the map controls)
+- The only `CLLocationManager` in the repository, and the only file that owns one: `ios/AIWorkout/Core/LocationMoment.swift`
+- One fix per request via `requestLocation()`, never `startUpdatingLocation()`, so the hardware stops itself and no session can be left running
+- When-in-use only: `NSLocationWhenInUseUsageDescription` in `ios/AIWorkout/Info.plist`; there is no `NSLocationAlwaysAndWhenInUseUsageDescription`, no background location mode in `UIBackgroundModes`, and no location entitlement in `ios/AIWorkout/AIWorkout.entitlements`
+- Never persisted: the coordinate lives only in `LocationMoment.state` and in the map screen's `@State`, both dropped in `AdventureMapScreen.onDisappear`. No key is added to `LocalDataWipe` because there is nothing to wipe — held as a test in `ios/AIWorkoutTests/MapLocationTests.swift` `testTheWipeHasNothingNewToClear`
+- Never transmitted: no call site passes a fix to the coach context, the widget snapshot, the export, or any server payload
+- Refusal is a state and never an alert or a re-prompt: `LocationMoment.request()` returns early on `.denied`, covered by `testARefusalIsNeverAskedAgain`
+- Nothing reads location unprompted: `testItAsksNothingUntilItIsAsked`, and the UI gate `testThePickerOffersLocationRatherThanDemandingIt`
+
+### Map searches (Apple system services, not our server)
+- Forward geocode of a typed address, discarded after use: `ios/AIWorkout/Features/Adventure/MapAddressSheet.swift`
+- Nearby place lookup around the displayed region, on tap only, results held in view state and never stored: `ios/AIWorkout/Features/Adventure/NearbyPlaces.swift`
+- No server-side place database was built and none is planned; the curated catalog remains a bundled file: `ios/ProgressionEngine/Sources/JourneyEngine/Resources/landmarks.json`
 
 ### On-device storage
 - Eleven SwiftData models: `ios/AIWorkout/Debug/AppModelContainer.swift:13-25`
