@@ -233,7 +233,7 @@ The server exists only for Compete. If you never sign in, you have no record on 
 | Routes and races | Routes you build (their name, the stops with their coordinates and any note you wrote, and the distances) and the races run on them: who is racing, who invited whom, and each check-in as a verdict that you reached a stop rather than a record of where you were |
 | Route photographs | Pictures you attach to a route stop, held in private cloud storage with their embedded metadata refused at upload. Shown to the people you share that route or race with through short-lived links, and deleted when you delete the route |
 | Programs shared between people | A program you send to a friend, and if you turn share-back on for a program you adopted, a summary of how your sessions went against how it was written |
-| Landmark stamps | Which landmarks your walking and running distance has reached, as a stamp per landmark with the date it was earned. It is a list of milestones you passed, never a location: no coordinate of yours is stored, and the landmarks themselves come from a fixed catalog bundled in the app |
+| Landmark stamps (your passport) | Which landmarks your walking and running distance has reached, as a stamp per landmark with the date it was earned. It is a list of milestones you passed, never a location: no coordinate of yours is stored, and the landmarks themselves come from a fixed catalog bundled in the app |
 | Audit records | A log of security-relevant actions on your account — sign-ins, friend changes — with your id, IP address, and user-agent |
 
 **What is never on our server.** Your workouts, sets, weights, programs, coach conversations, sleep, resting heart rate, HRV, body weight, injuries, goals, birth year, and home coordinate.
