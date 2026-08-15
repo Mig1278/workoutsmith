@@ -1,7 +1,7 @@
 # WorkoutSmith — Privacy Policy
 
 **Effective date:** July 30, 2026
-**Last updated:** 2026-08-14
+**Last updated:** 2026-08-15
 
 ---
 
@@ -130,6 +130,7 @@ For rate limiting, the relay records a counter keyed to your device's IP address
 | Fatigue | A plain-text fatigue summary and any deload recommendation |
 | Milestones | A one-line note when you level up, and the outcome of a set the coach logged for you |
 | Where a program came from | If you adopted a program someone else shared with you, a marker saying that this plan or session name was written by another person, and the times it was shared and adopted. Never their name, handle, email, or user id, and no text beyond what the rows above already carry. It is here for your protection rather than the coach's interest: knowing which words came from someone else is what lets the app hand them to the coach as a label another person wrote, never as an instruction to follow |
+| A program that came out of a spreadsheet | If you imported a program from a spreadsheet, a marker saying that this plan or session name came out of a file rather than from you. Nothing about the file itself: not a link to it, not its name, not the Google account it was in, and no text beyond what the rows above already carry. A spreadsheet is something anyone can send you, so knowing which words arrived that way is what lets the app hand them to the coach as a label somebody else wrote, never as an instruction to follow |
 | What the app has learned about you | A few sentences summarising patterns counted from your own logged workouts: where prescribed weight increases have landed and where you have stalled, which way your reps-in-reserve reports lean against what you then lifted, an exercise you have repeatedly swapped for another, and one you have repeatedly skipped |
 
 Your conversation history for the current chat is sent with each turn, because that is how a conversation works.
@@ -293,6 +294,10 @@ screenshot is deleted, as part of honoring the deletion.
 Settings has an "Export workout history" option that writes your profile, programs, and full workout history — every set, rep, and weight — to a JSON file you can share or save wherever you like. It does not include your chat history, body weight, birth year, or home location.
 
 The export file is written to a temporary folder on your device. iOS clears that folder periodically, but the app does not delete the file immediately after sharing.
+
+Your programs and your workout history can also go to a Google spreadsheet, in your own Google Drive, under your own Google account. You sign in to Google yourself, on Google's own page, and we never hold your Google credentials. The app asks for two permissions and nothing wider: one to work with spreadsheets, and one that reaches only the files it created or that you handed to it, so the rest of your Drive stays invisible to it.
+
+Workout history travels in that direction only. A program can come back in from a spreadsheet; results never can, and a history sheet is refused outright, because a number typed in a cell is not evidence that you lifted anything.
 
 To receive a copy of the data our server holds about you, email
 **mignet1278@gmail.com** from the address associated with your account and we
