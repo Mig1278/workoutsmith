@@ -210,7 +210,7 @@ The server exists only for Compete. If you never sign in, you have no record on 
 
 **What your account record contains.** An internal id, the Apple identifier, the email fingerprint described above, your display name, your public handle if you set one, and your avatar id.
 
-**Avatars are not photos.** There is no photo upload. An avatar is one of 256 preset combinations of a system icon and a colour palette, stored as a short text id and validated against that fixed list.
+**Avatars are not photos.** An avatar is one of 256 preset combinations of a system icon and a colour palette, stored as a short text id and validated against that fixed list. Photographs enter the app in exactly two other places, both described below: a picture you attach to a stop on a route you build, and a screenshot you choose to attach to feedback.
 
 **What else is stored, and why.**
 
@@ -226,10 +226,33 @@ The server exists only for Compete. If you never sign in, you have no record on 
 | Daily goals | The daily step goal you set for the friends board. It is yours: it is used to work out your own percentage, and it is not shown to anyone else |
 | Trophies | Placement, medal, metric, score, and the display name you had at the time |
 | Leagues | Your division, weekly score, rank, and outcome |
+| Notification devices | Only if you turned notifications about other people on: a device token from Apple for each phone you use, which addresses a notification to that device and identifies nothing else. Deleted when you turn them off, when you delete your account, and automatically 90 days after you last opened the app |
+| Notification settings | Which categories you want, and the UTC offset your device reported, so nothing arrives in the middle of your night |
 | Feedback | Anything you submit through the in-app feedback form (see below) |
+| Groups | The friend groups you create or join: the group name, who is in it, who owns it, and whether members may bring others in |
+| Routes and races | Routes you build (their name, the stops with their coordinates and any note you wrote, and the distances) and the races run on them: who is racing, who invited whom, and each check-in as a verdict that you reached a stop rather than a record of where you were |
+| Route photographs | Pictures you attach to a route stop, held in private cloud storage with their embedded metadata refused at upload. Shown to the people you share that route or race with through short-lived links, and deleted when you delete the route |
+| Programs shared between people | A program you send to a friend, and if you turn share-back on for a program you adopted, a summary of how your sessions went against how it was written |
 | Audit records | A log of security-relevant actions on your account — sign-ins, friend changes — with your id, IP address, and user-agent |
 
 **What is never on our server.** Your workouts, sets, weights, programs, coach conversations, sleep, resting heart rate, HRV, body weight, injuries, goals, birth year, and home coordinate.
+
+---
+
+## Notifications
+
+There are two kinds and they work completely differently.
+
+**Workout reminders are local.** You pick the days and the time in Settings, your phone schedules them, and nothing about them is sent anywhere. They stay silent while your streak is paused and once you have already trained that day.
+
+**Notifications about other people are opt-in and come from our server.** These are the ones that tell you somebody invited you to a challenge or a race, asked to be friends, cheered you on, or that a challenge you were in has finished. They are **off until you turn them on**, and we never ask about them when you first open the app — only after something has happened that one of them would have been about.
+
+- **Turning them on registers this device with Apple.** Apple gives your phone a device token and we store it against your account so a notification can be addressed to it. **It identifies the phone, not you**, and there is nothing anywhere in this service that reads it back, looks up who a token belongs to, or answers any question about a device — the only two things that can happen to one are that a notification is sent to it and that it is deleted.
+- **When it is deleted.** When you turn notifications off, when you sign out on that device, when you delete your account, and automatically 90 days after the last time you opened the app. Apple also tells our server when a device is gone, and we delete the token then too.
+- **We store your device's UTC offset**, sent by the app when it registers, for one purpose: so that nothing arrives between 10pm and 7am where you actually are. It is a number of minutes, not a place, and if it is missing we do not guess one — we simply apply no quiet hours rather than infer a timezone from your IP address.
+- **What is in a notification.** The same small set of facts the app already shows you: what happened, who did it, and which challenge or race it was about. A notification never contains anybody else's numbers, standings, or location.
+- **You choose which ones.** Every category has its own switch in Settings, and there are per-day caps on all of them so no failure anywhere upstream can turn into a stream of notifications.
+- **We never send marketing.** There is no category for it, no code path to it, and no address to send it from — we do not store your email address at all.
 
 ---
 
@@ -285,7 +308,7 @@ screenshot is deleted, as part of honoring the deletion.
 - **No analytics or crash reporting.** No Firebase, no Sentry, no Amplitude, no Mixpanel. The app has no third-party dependencies of any kind — every dependency is Apple's own framework or first-party code in this repository.
 - **No tracking.** The app does not collect data about you for advertising or measurement, does not link your activity to third-party data, and does not use the App Tracking Transparency framework because it has nothing to ask for.
 - **No data brokers, no sale, no sharing for cross-context advertising.**
-- **No push notifications.** Reminders are scheduled locally by your phone. The app has no push entitlement and never registers with Apple's push service, so we cannot send you anything.
+- **No push notifications you did not ask for.** Workout reminders are still scheduled locally by your phone and nothing is sent anywhere to schedule them. Notifications about other people — an invitation, a cheer — are a separate thing you turn on, and until you do, this app never registers with Apple's push service and we have no way to reach you. See "Notifications" above.
 
 ---
 
@@ -359,7 +382,7 @@ WorkoutSmith is not directed to children and is not intended for anyone under 13
 We reviewed the app against the features that typically raise child-safety questions:
 - There is **no free-text messaging between users**. Encouragement is limited to four fixed emotes.
 - There are **no user-supplied challenge names or descriptions**; every challenge title comes from a fixed set of formats.
-- There is **no photo sharing between users**. Avatars are preset icons. The only image upload anywhere is a screenshot you attach to feedback, which goes to the developer and to no other user.
+- **Photographs, and who can see them.** Avatars are preset icons and are not photographs. You can attach a photograph to a stop on a route you build; that picture is stored in our private cloud storage, its embedded metadata (including any location the camera recorded) is refused rather than kept, and it is shown to the people you share that route or race with, through short-lived links, for as long as the route exists. Deleting the route deletes its photographs. A screenshot you attach to feedback goes to the developer and to no other user.
 - There is **no user search or directory**. Friends are added by an invite code shared out of band, or by a request sent to an email address the sender already knows — and that request never reveals whether the address has an account, so it cannot be used to find anyone.
 - Nothing is public by default. Global visibility requires deliberately opting a metric to global and choosing a handle.
 - The app collects no birthday. An optional birth *year* field exists in Settings for strength-standard tables; it stays on the device and is never sent to our server.
@@ -469,7 +492,14 @@ Every path is relative to the repository root, `/Users/miklee/dev/AI_Workout_App
 - Three Keychain items, all this-device-only: `AICoachConfig.swift:107-133`, `ios/AIWorkout/Core/Competition/TokenStore.swift:18-44`, `GoogleHealthTokenStore.swift`
 - Install identifier is local and only hashed locally: `ios/AIWorkout/Core/AvatarIdentity.swift:21-22`
 - Export contents: `ios/AIWorkout/Features/Settings/WorkoutDataExport.swift`
-- Local notifications only; no `aps-environment`, no remote-notification registration: `ios/AIWorkout/Features/Notifications/NotificationScheduler.swift:6-9`, entitlements files
+- Local reminders are scheduled by the device and nothing about them leaves it: `ios/AIWorkout/Features/Notifications/NotificationScheduler.swift`
+- Remote notifications are opt-in, and the opt-in is our own flag rather than iOS's authorization status, so granting permission for reminders does not enrol anybody in push: `ios/AIWorkout/Features/Notifications/PushRegistrar.swift` (`OptIn`, and the invariant stated at the top of the file)
+- Never asked at launch: the two ask moments are an invitation sent and a cheer received, both raised only from the Social tab: `PushRegistrar.consider(_:)`, `CompetitionRootView.swift`
+- The device token is stored keyed by a hash of itself and there is no lookup by token and no read across users: `server/src/push/tokens.ts`; the routes are scoped to the caller: `server/src/app.ts` (`/me/push-tokens`)
+- Token expiry at 90 days, refreshed on each registration; dead tokens dropped when Apple reports them: `server/src/push/tokens.ts` (`TOKEN_TTL_MS`, `dropDeadToken`)
+- Quiet hours applied from the device's own offset, never inferred: `server/src/push/categories.ts` (`isQuietHour`)
+- Per-category switches and per-day caps: `server/src/push/categories.ts` (`CATEGORY_DEFAULT_ENABLED`, `CATEGORY_DAILY_CAP`), `server/src/push/prefs.ts`
+- Every sentence that can reach a lock screen, in one file under a banned-vocabulary test: `server/src/push/copy.ts`, `server/test/push-copy.test.ts`
 - No third-party packages at all: `ios/project.yml` (only the local `ProgressionEngine`), `ios/ProgressionEngine/Package.swift` (no remote dependencies)
 - No ad identifier or tracking framework: no matches for `AppTrackingTransparency`, `ASIdentifierManager`, `advertisingIdentifier`, `NSUserTrackingUsageDescription` in `ios/`
 - Delete-all-data implementation: `ios/AIWorkout/Features/Settings/SettingsView.swift:544-596`; dialog copy at `:133-146`
