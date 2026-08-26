@@ -1,7 +1,7 @@
 # WorkoutSmith — Privacy Policy
 
-**Effective date:** July 30, 2026
-**Last updated:** 2026-08-15
+**Effective date:** August 26, 2026
+**Last updated:** 2026-08-26
 
 ---
 
@@ -13,8 +13,8 @@ WorkoutSmith is a training app. It is built so that the things you would least w
 - **We run one server**, and it exists only for the social features: signing in, your friends list, challenges, leagues, and trophies. It holds your name, a handle, an avatar id, an unreadable fingerprint of your email address so friends who know it can send you a request, and the numbers for the specific metrics you chose to compete on. Nothing else.
 - **We do not run ads, we do not use analytics or crash-reporting SDKs, and we do not track you.** There is no advertising identifier in this app and no third-party code that could collect one.
 - **We do not sell your data. We never have and there is no mechanism in the app that could.**
-- **The AI coach is optional.** When you use it, a summary of your training goes to Google or Anthropic. What is in that summary is listed in full below. Normally you bring your own API key and it is billed to your own account; there is also a capped shared option for people who have no key, where the same request is billed to ours instead. Both are described below.
-- **You can delete everything**, from inside the app, without emailing anyone.
+- **The AI coach is optional.** When you use it, a summary of your training goes to Google or Anthropic. What is in that summary is listed in full below. You supply your own API key and the request is billed to your own account. There is no coach that runs on ours.
+- **You can delete everything**, from inside the app, without emailing anyone. There is one deliberate exception and it is described in full below: if an organizer removed you from a race, a minimal record of that removal outlives your account, because a record you could clear by signing up again would protect nobody.
 
 The rest of this document is the detail behind those sentences.
 
@@ -38,7 +38,7 @@ There are only three places your data can be, and it is worth being precise abou
 
 **2. On our server.** A single database in Amazon Web Services (region: US East, Northern Virginia). It holds only what the social features need. The complete list is in "What we store on our server" below. It does **not** hold your workout history, your programs, your chat with the coach, your sleep, your heart rate, your weight, or your home location.
 
-**3. In accounts with other companies.** If you use the AI coach with your own Google (Gemini) or Anthropic (Claude) API key, those requests are billed to and governed by your account with that company, and we are not the account holder. If instead you use the shared coach, the request goes to the same place but on our account rather than yours — see "The shared coach" below. If you connect Fitbit, your phone talks to Google directly (Google owns Fitbit and now provides its data to apps) using your own Google login. In every case, those companies' privacy policies apply to what they do with what they receive.
+**3. In accounts with other companies.** If you use the AI coach, you supply your own Google (Gemini) or Anthropic (Claude) API key, and those requests are billed to and governed by your account with that company. We are never the account holder. If you connect Fitbit, your phone talks to Google directly (Google owns Fitbit and now provides its data to apps) using your own Google login. In every case, those companies' privacy policies apply to what they do with what they receive.
 
 ---
 
@@ -99,17 +99,9 @@ The coach is optional. The app is fully usable without it: manual logging, the h
 
 **Your key, your account.** You supply your own API key from Google AI Studio (Gemini) or Anthropic (Claude). It is stored in your device's Keychain, marked so that it does not sync to iCloud Keychain and is not included in encrypted backups. It is never written to a log, never stored on our server, and never sent anywhere except as the authentication credential on your own coach requests.
 
-**The shared coach, if you have no key of your own.** Settings offers a second option: use the coach without supplying a key. It is there so you can try the coach before deciding whether to go and get one, and it is the reason this app can be handed to an invited tester who has no Google account set up.
+**There is no coach that runs on our account.** Earlier versions offered a "shared coach": the same service, on the same destination, but billed to our Google account instead of yours. It has been retired. Every coach request now runs on a key you supplied, and this app has no path that could send one any other way — the relay refuses a request that arrives without your key rather than falling back to one of ours, because it has none. If you were using the shared coach, the app tells you it retired and offers the two-minute walkthrough for getting your own free key; nothing you have logged is affected.
 
-The difference is narrower than it sounds, and it is worth being exact about. It is not a different service and not a different destination: your message goes to the Google Gemini API either way, carrying the same context block listed below and nothing extra. **What changes is whose account the request is charged to.** With your own key, the request is billed to you and governed by your own agreement with Google or Anthropic, and we are not a party to it. With the shared coach, the request is billed to our Google account, and our agreement with Google covers it instead of yours. Google receives the same words in both cases; only the account name attached to them differs.
-
-Because those requests spend our money rather than yours, they are capped, and the cap is deliberately tight. A signed-in account can send about sixty coach messages a day, where generating a whole program counts as five of them; without an account it is about eight. Past the cap the coach stops answering until the next day and tells you why. Keeping that count is the only thing the cap adds: a number, tallied against your account id or, if you are not signed in, your IP address, expiring on the same schedule as the rate-limit counters described just below. It records that a request happened, never what was in it.
-
-Nothing else differs. On both paths the relay stores no conversation, logs no content, and holds no key after the request ends, and your training history stays on your phone.
-
-The shared coach is a courtesy rather than a service, and the app says so where you choose it: it may be rate limited or switched off at any time. It only works at all while a real shared key is configured on the server, so on a build where none is, choosing it gets you an error instead of a coach. Either way the description above is what happens when it does work.
-
-**How a request travels.** Your message goes over HTTPS to a small relay we run on AWS, which attaches the coaching instructions and forwards the request to Google or Anthropic — using your key, or ours if you chose the shared coach. The relay does not store your key: it exists in memory for the duration of that one request and is discarded. The relay keeps no conversation history.
+**How a request travels.** Your message goes over HTTPS to a small relay we run on AWS, which attaches the coaching instructions and forwards the request to Google or Anthropic, using your key. The relay does not store your key: it exists in memory for the duration of that one request and is discarded. The relay keeps no conversation history.
 
 **Nothing you write, and nothing the coach writes back, is logged.** Not your message, not the reply, not a truncated excerpt of either. When something goes wrong the relay records the shape of the failure rather than its contents: how long a reply was, where it stopped making sense, which check it failed, and a short random id for that one request so the lines belong together. The whole of the coach's output is treated as yours, including a generated program, which is built out of what you told it about your body. The relay's logs are deleted after 14 days regardless.
 
@@ -141,7 +133,7 @@ Your conversation history for the current chat is sent with each turn, because t
 
 **Voice.** Speech is transcribed by Apple's on-device speech recognition where the device supports it. Only the resulting text is sent to the coach; audio never reaches our servers.
 
-**Your controls.** Nothing goes to the coach until you have acknowledged the disclaimer and turned on AI data sharing. Turning that setting off stops all coach requests. Removing your key turns the coach off entirely — it does not silently fall back to the shared coach; using that is a separate, deliberate choice you make in Settings.
+**Your controls.** Nothing goes to the coach until you have acknowledged the disclaimer and turned on AI data sharing. Turning that setting off stops all coach requests. Removing your key turns the coach off entirely: chat and the voice trainer lock, and there is nothing for them to fall back to.
 
 ---
 
@@ -167,7 +159,15 @@ none of this section applies to your data.
 
 ---
 
-## Home location and Adventure journeys
+## Location
+
+This section describes what the app does with location today. It is deliberately written in the present tense and about the features that exist: where a paragraph says the app behaves a certain way, that is a description of how it works now rather than an undertaking about every version of it that will ever exist. If a future version reads your location differently, this policy changes before that version ships, and the effective date at the top changes with it.
+
+**What is true across all of it, today.** The app does not track your location continuously. It has no background location: it reads nothing while it is closed or in your pocket, and it asks iOS only for "while using the app" permission rather than "always". Every read below happens because you tapped the control that does it.
+
+There are four places location comes up, and they end differently, so it is worth reading all four. Two of them keep nothing. One of them saves a coordinate and sends it to our server, because it has to. One of them records that you arrived somewhere.
+
+### Your home, for Adventure journeys
 
 The Adventure tab can turn your walking and running mileage into a trip outward from home. Setting a home is optional; without it the feature falls back to fixed comparisons like marathon counts and needs no location at all.
 
@@ -177,12 +177,33 @@ Once converted, **only the latitude and longitude are saved, never the address t
 
 ### The map's location button
 
-The Adventure map has a button that centres the map on where you are. **It is the only thing in this app that reads your location, it reads it once per tap, and it never keeps the answer.**
+The Adventure map has a button that centres the map on where you are. It reads your location once per tap and does not keep the answer.
 
 - **You have to ask.** Nothing reads your location on launch, on opening the map, or in the background. The first time you tap the button, iOS shows you the standard permission prompt.
-- **One reading, not tracking.** The app requests a single position fix and the hardware stops. There is no continuous location session, no blue dot following you, no background location, and no "always" permission — the app asks only for "while using".
-- **Nothing is written down.** The coordinate is held in memory for as long as the map is on screen and is discarded when you leave it. It is not saved to the app's database, your preferences, the keychain, or the widget. It is never sent to our server, never given to the AI coach, and never included in an export. Closing the app forgets it completely.
-- **Saying no costs you nothing.** If you decline, the map tells you so in one line and everything else works exactly as before: you can set a home by typing an address, move the map to any address you type, and use every other feature. The app worked this way before the button existed.
+- **One reading, not a session.** The app requests a single position fix and the hardware stops. There is no continuous location session and no blue dot following you.
+- **Nothing is written down.** The coordinate is held in memory for as long as the map is on screen and is discarded when you leave it. It is not saved to the app's database, your preferences, the keychain, or the widget. It is not sent to our server, not given to the AI coach, and not included in an export. Closing the app forgets it.
+- **Saying no costs you nothing.** If you decline, the map tells you so in one line and everything else works exactly as before: you can set a home by typing an address, move the map to any address you type, and use every other feature.
+
+### Building a route from where you are
+
+This is the one place in the app where a reading of your location is saved and sent to us, and it is worth being blunt about it rather than leaving it to be inferred from the section above.
+
+When you build a route, you place stops on it. You can place a stop by typing an address, by picking a point on the map, or by tapping **use where I am**, which takes the same single position fix the map button takes. Whichever way you place it, **that stop is a coordinate, and a route's coordinates are saved on your device and sent to our server**, because a route is a thing you share with other people and a route nobody else can load is not a route.
+
+So: if you build a stop with **use where I am**, you have put where you were at that moment into a document. Two consequences follow, and both are the feature working as intended rather than a leak.
+
+- **The people you share that route or race with can see its stops**, on a map, with whatever names and notes you wrote. That is what sharing a route is.
+- **A route's first stop is usually where the person building it started.** If you begin a route at your front door, the front door is on the route. Place the first stop somewhere else if you would rather it were not.
+
+A route stop carries no timestamp of your own and nothing about your body. It is a place on a map, and the app treats it as course geometry rather than as a record of you.
+
+### Checking in during a race
+
+A race runs on a route, and reaching a stop is a check-in. Your phone takes a single position fix, compares it with the stop **on the device**, and sends the verdict.
+
+**What the check-in carries is which stop, when you reached it, and whether your phone's fix agreed.** It carries no latitude, no longitude, no accuracy figure and no distance. This is enforced rather than intended: a check-in that arrives carrying a coordinate is rejected with an error rather than having the field quietly dropped, and there is no column anywhere on the server that could hold one.
+
+**What the other people in your race can work out from it, and you should know this before you race.** They can already see the route, because they are racing on it. They can see that you reached stop four at 9:52. Put those together and the people in your race can tell which points on the course you reached and at what time, up to the number of stops on it. That is a check-in board doing its job, and it is not a background track of your morning: it is the handful of moments you tapped a button on a course you chose to enter. But it is more than "a verdict that you arrived", and describing it as less than it is would be dishonest.
 
 ### Searching the map
 
@@ -210,7 +231,7 @@ The server exists only for Compete. If you never sign in, you have no record on 
 
 **What your account record contains.** An internal id, the Apple identifier, the email fingerprint described above, your display name, your public handle if you set one, and your avatar id.
 
-**Avatars are not photos.** An avatar is one of 256 preset combinations of a system icon and a colour palette, stored as a short text id and validated against that fixed list. Photographs enter the app in exactly two other places, both described below: a picture you attach to a stop on a route you build, and a screenshot you choose to attach to feedback.
+**Avatars are not photos.** An avatar is one of 256 preset combinations of a system icon and a colour palette, stored as a short text id and validated against that fixed list. Photographs enter the app in exactly three other places, all described below: a picture you attach to a stop on a route you build, a picture you add during a race, and a screenshot you choose to attach to feedback.
 
 **What else is stored, and why.**
 
@@ -230,8 +251,12 @@ The server exists only for Compete. If you never sign in, you have no record on 
 | Notification settings | Which categories you want, and the UTC offset your device reported, so nothing arrives in the middle of your night |
 | Feedback | Anything you submit through the in-app feedback form (see below) |
 | Groups | The friend groups you create or join: the group name, who is in it, who owns it, and whether members may bring others in |
-| Routes and races | Routes you build (their name, the stops with their coordinates and any note you wrote, and the distances) and the races run on them: who is racing, who invited whom, and each check-in as a verdict that you reached a stop rather than a record of where you were |
+| Routes and races | Routes you build (their name, the stops with their coordinates and any note you wrote, and the distances) and the races run on them: who is racing, who invited whom, and each check-in as which stop you reached and when. A check-in carries no coordinate of its own; the coordinates on the server are the route's stops. See "Checking in during a race" above for what the two together let the people in your race see |
 | Route photographs | Pictures you attach to a route stop, held in private cloud storage with their embedded metadata refused at upload. Shown to the people you share that route or race with through short-lived links, and deleted when you delete the route |
+| Race photographs | Pictures added during a race, held in the same private cloud storage, with their metadata stripped on your phone before they are sent. Alongside each one: which stop it belongs to, whether your device judged it on the course, the time it was taken, and whether you chose to show it to your friends in the race or to every attendee. Served through short-lived links, and **deleted six months after the race ends**. See "Photographs taken during a race" above |
+| Notes about a blocked photograph | When automated screening refuses a picture: the broad category, whose upload it was, when, and how many times that account has had one refused. **Never the picture, and never a description of it**, which is why the category is the coarsest name available rather than a specific one |
+| An organizer's own ban list | If you organize races, who you chose to keep out. It applies to every race you organize, it is yours and is shown to nobody else, and it is deleted when either account is deleted |
+| Removal records | That an organizer removed an account from a race: the Apple identifier, the race, the organizer, and the time. No reason and no content. **This one survives account deletion**, and the reason is given under "Being removed from a race" above |
 | Programs shared between people | A program you send to a friend, and if you turn share-back on for a program you adopted, a summary of how your sessions went against how it was written |
 | Landmark stamps (your passport) | Which landmarks your walking and running distance has reached, as a stamp per landmark with the date it was earned. It is a list of milestones you passed, never a location: no coordinate of yours is stored, and the landmarks themselves come from a fixed catalog bundled in the app |
 | Diagnostic log | A 24-hour record of app EVENTS, attached to a feedback submission only when you turn the switch on for that report: screens you opened, whether a request succeeded and its status code, state changes, error identifiers, sync outcomes, the messages your iPhone and Apple Watch exchanged, and which tools your AI coach asked to use |
@@ -284,6 +309,56 @@ You can send a workout program to a friend, and they can send one to you. This i
 - **What the author never sees, on or off:** any other training you do, your workout history, your chat with your coach, anything from Apple Health or Fitbit, your readiness or sleep or heart rate, your bodyweight, your location, or any program other than the one they gave you. The summary is built to carry counts and typical numbers only; it has no per-session detail in it and cannot be turned back into a training log.
 - **Turning it off deletes it.** Revoking share-back removes the summary from our server rather than hiding it, so the author stops being able to see it at all. Nothing further is sent from that point.
 - **Text other people wrote is treated as untrusted.** A program's name and notes are written by whoever shared it. Where that text is shown to your AI coach, it is explicitly marked as something another person wrote so the coach treats it as a label and never as an instruction, and the markers themselves are stripped from what people type so they cannot be forged.
+
+---
+
+## Races
+
+A race is a route, a schedule, a roster, and the check-ins people make along the way. The check-ins are described under "Checking in during a race" above. Two other things about a race are worth their own space: the photographs taken during it, and what happens when somebody is removed from one.
+
+### Photographs taken during a race
+
+**Who can add one, and when.** Only somebody already on the race's roster, and only while the race is running or in the **24 hours after it ends**. After that the race closes to new pictures. Everything already added stays, and anyone who can see a picture can download it.
+
+**Your phone reads the photograph's hidden metadata before it sends anything.** A picture from a camera usually carries an EXIF block with the time it was taken and often the exact place. The app reads that block **on your device**, and uses it for one thing: checking that the picture belongs to this race rather than being a holiday photograph from last year.
+
+**The coordinate is compared on your phone and never leaves it.** Your device already holds the course, so it compares the photograph's coordinate against the course itself and sends only the answer: on the course, off the course, or no location in the file at all. **Our server never receives the coordinate.** A request that tried to send one is rejected outright rather than having the field quietly dropped, and there is nowhere on the server that a photograph's location could be stored.
+
+**The time it was taken does travel, as a plain number, and the server checks it.** A moment is not a place: knowing when a photograph was taken says nothing about where anybody was, so this half is enforced by us rather than trusted to the app, the same way a check-in's time already is. It is allowed five minutes of slack for a phone with a wrong clock.
+
+**The metadata is then stripped, before the photograph leaves your phone.** What we receive is the image with its EXIF block removed. The read happened on your device, in that order, deliberately: read, compare, then strip.
+
+**A photograph with no location in it is not treated as suspicious.** Cameras have location switched off all the time, and a picture may already have been stripped by another app. That is a fact about a phone rather than evidence about a person. A photograph like that goes to the organizer to approve by hand, and if that race's organizer chose not to review photographs at all then there is nobody to approve it, so it is refused. It is never quietly counted as a picture taken somewhere it should not have been.
+
+**Every photograph is screened automatically, with no exceptions, including the organizer's own.** The screening is an automated nudity and violence classifier run by Amazon Web Services on the image itself.
+
+**A photograph the screening blocks is never stored at all.** It is checked while it is still in memory and reaches our storage only if it passes, so there is no moment at which a blocked picture exists on a disk of ours. **Nobody at our end ever sees it**: not the organizer, and not us. There is deliberately no appeal and no queue anybody can open to look at what was refused, because the entire value of the rule is that nobody learns what was in the picture. If your photograph is refused and you believe it should not have been, take another one.
+
+**What is kept about a blocked photograph is a note, never the picture.** Which broad category blocked it, whose upload it was, when, and how many times that account has had one blocked. The organizer is shown that it happened and who did it, so they can act on it, and is never shown the image, because the image does not exist anywhere.
+
+**You choose who sees an approved photograph of yours**, at the moment you add it: your friends who are in that race, or every attendee. It **defaults to friends**, which is the narrower of the two. That choice picks an audience among people who have already passed everything above; it cannot widen anything or skip a check.
+
+**Your photograph may also wait for the organizer**, if they turned on review when they created the race. While it waits, it is visible to you and to the organizer and to nobody else. If nobody ever approves it, it is deleted after two weeks rather than waiting forever.
+
+**If an organizer removes you from a race, the photographs you added to that race are deleted with you.**
+
+**How long the rest are kept: six months after the race ends.** Then they are deleted on a schedule, without anybody having to remember. Six months is meant to be long enough that the race is properly over and short enough that we are not holding a library of photographs of people indefinitely. **If you want to keep a picture, download it** from the race, at any time in that window.
+
+**Race results are kept and photographs are not, and the difference is size.** Who ran, who reached which stop, the finishing order and the standings are a few numbers per person, so they stay as long as your account does and your history and trophies stay honest. Photographs are not a few numbers, so they age out.
+
+**One thing this screening is not, said plainly because it matters more than the rest of this section.** The automated screener is a general nudity and violence classifier and **it does not detect child sexual abuse material**; its vendor says so about their own product. Nothing described above should be read as a claim that it does. If you ever see something of that kind in this app, report it to the National Center for Missing and Exploited Children through the CyberTipline at **report.cybertip.org**, and do not download, screenshot or forward it.
+
+### Being removed from a race, and what we record
+
+**The person who organizes a race can remove somebody from it.** It is their race and their roster, and they do not owe anyone an explanation for it. An organizer also keeps their own list of people they chose to keep out of every race that organizer runs. That list is personal to them, is shown to nobody else, and is deleted when either account is deleted.
+
+**Separately, we keep a minimal record that the removal happened.** It is the identifier Apple gave us for the account that was removed, which race it was, which organizer did it, and when. **That is the whole record.** It has no reason, no message, no content of any kind, and nothing about what was said or done. Nobody is asked for a reason, so there is none to store.
+
+**Repeated removals by different organizers can get an account banned from WorkoutSmith.** That is the reason the record exists, and the word "different" is doing real work. Being removed five times by the same organizer counts once: that is two people who do not get along, and it is already handled by that organizer's own list. Being removed by five different organizers who do not know each other is a pattern none of them could see on their own, and that is the only thing this record is read for.
+
+This is written here, in the privacy policy, and in the community rules you accept in the app before you train, because a ban that nobody was warned about is worse than no ban at all.
+
+**This record deliberately outlives account deletion.** Everything else described under "Delete account" below is removed when you delete your account. The removal record is not, and we would rather tell you that than have you find out. The reason is plain: if deleting an account erased it, then deleting and re-registering would clear the history every time, and the protection would be decorative. What survives is the minimal record described above, and nothing else about the account survives with it.
 
 ---
 
@@ -352,9 +427,10 @@ It also deletes from Apple Health the workouts this app wrote there, leaving any
 
 **"Delete account" (Settings).** Deletes your account on our server. This is deliberately separate: your on-device workouts survive it. It removes your profile, your handle, Apple-identifier and email-fingerprint records, your sessions, your sharing settings, your friendships in both directions, your invite codes, the friend requests you sent and received, any waiting invitations you sent to addresses with no account, your metric values and daily totals, your league enrolments and memberships, your challenge participations, and your change history. Challenges you created are removed along with their rosters and cheers.
 
-Two things survive by design, and you should know before you press it:
+Three things survive by design, and you should know before you press it:
 - **Trophies stay, anonymized.** Removing them would corrupt other people's competition histories. Your account id is cleared and your name is replaced with "Departed athlete", but the placement, metric, and score remain attached to that past challenge.
 - **Feedback you submitted stays, de-identified.** Your account id and name are stripped, and any screenshot you attached is deleted outright, because a screenshot can show your body and your lifts. The message text and device context remain so that a reported bug does not vanish mid-investigation.
+- **A record that an organizer removed you from a race stays, and it stays identified.** This is the one exception to everything above, and it is deliberate rather than an oversight. It is the minimal record described under "Being removed from a race": the Apple identifier, the race, the organizer, and the time, with no reason and no content. It survives because a record that could be erased by deleting an account and signing up again would protect nobody. Nothing else about your account survives with it, and it is used for nothing except recognising an account that different organizers have repeatedly removed.
 
 Security and audit records (sign-ins and account activity, including IP
 address and device user-agent) expire automatically after 90 days. The single
@@ -382,14 +458,17 @@ window.
 WorkoutSmith is not directed to children and is not intended for anyone under 13. We do not knowingly collect personal information from children under 13.
 
 We reviewed the app against the features that typically raise child-safety questions:
-- There is **no free-text messaging between users**. Encouragement is limited to four fixed emotes.
-- There are **no user-supplied challenge names or descriptions**; every challenge title comes from a fixed set of formats.
-- **Photographs, and who can see them.** Avatars are preset icons and are not photographs. You can attach a photograph to a stop on a route you build; that picture is stored in our private cloud storage, its embedded metadata (including any location the camera recorded) is refused rather than kept, and it is shown to the people you share that route or race with, through short-lived links, for as long as the route exists. Deleting the route deletes its photographs. A screenshot you attach to feedback goes to the developer and to no other user.
+- There is **no free-text messaging between users**, and no comments. There is nowhere in this app that one person writes a message to another person. Encouragement is limited to four fixed emotes.
+- **There is free text that other people see, and it is worth naming exactly what it is**, because an earlier version of this policy said there was none and that was wrong. It is: your display name and your public handle; the name somebody gives a challenge, a group, a route or a race; and the note somebody can write on a stop of a route, which can run to a couple of thousand characters. All of it is a label on a thing rather than a message to a person, all of it is written by somebody who then shares it with people they invited, and none of it can be addressed to an individual. Text written by another person is also marked as such wherever it is shown to your AI coach, so the coach treats it as a label rather than as an instruction.
+- **Photographs, and who can see them.** Avatars are preset icons and are not photographs. There are three ways a photograph enters the app. You can attach one to a stop on a route you build; that picture is stored in our private cloud storage, its embedded metadata (including any location the camera recorded) is refused rather than kept, and it is shown to the people you share that route or race with, through short-lived links, for as long as the route exists. You can add one during a race if you are on its roster; its metadata is read and then stripped on your phone before it is sent, every picture is screened automatically and a refused one is never stored at all, it is shown only to your friends in that race or to its attendees as you choose, and it is deleted six months after the race ends. A screenshot you attach to feedback goes to the developer and to no other user.
+
+  The automated screener is a general nudity and violence classifier and **does not detect child sexual abuse material**. Nothing here should be read as a claim that this app detects it. Report anything of that kind to the National Center for Missing and Exploited Children at **report.cybertip.org**.
+- **There is a rule about behaviour and it is enforced.** Everyone accepts community rules in the app before they train: no objectionable content and no abuse of other people, with zero tolerance for either. An organizer can remove anyone from their race, removals are recorded, and an account that different organizers have repeatedly removed can be banned from the app.
 - There is **no user search or directory**. Friends are added by an invite code shared out of band, or by a request sent to an email address the sender already knows — and that request never reveals whether the address has an account, so it cannot be used to find anyone.
 - Nothing is public by default. Global visibility requires deliberately opting a metric to global and choosing a handle.
 - The app collects no birthday. An optional birth *year* field exists in Settings for strength-standard tables; it stays on the device and is never sent to our server.
 
-The two fields another user can see that are free text are your **display name** and your **public handle**. Handles are restricted to letters, numbers, hyphens and underscores.
+**Public handles** are restricted to letters, numbers, hyphens and underscores, and are stripped of invisible and direction-reversing characters so that nobody can impersonate another athlete on a leaderboard. **Display names** reject control characters. **The other free-text fields are length-bounded**, and a name or note somebody else wrote is shown as text and never interpreted as an instruction by anything in the app.
 
 ---
 
@@ -440,9 +519,8 @@ Every path is relative to the repository root, `/Users/miklee/dev/AI_Workout_App
 - 14-day log retention: `infra/template.yaml:265`
 - Rate-limit counters keyed by IP with 120s / 48h expiry: `backend/src/limits.ts:216-250`, `backend/src/ratestore.ts:132`
 - On-device speech where supported: `ios/AIWorkout/Core/Speech/SpeechRecognizer.swift:73-76`
-- Shared-coach path, and that a request with no user key spends the server's own key: `backend/src/app.ts:88`, `backend/src/guard.ts:186`, `ios/AIWorkout/Features/Settings/AICoachSettingsView.swift:118`, `infra/template.yaml:325`
-- Shared-coach daily budget (60 units signed in, 8 anonymous; a chat turn costs 1 and a program 5), charged only when no user key is present, keyed to the account id or the source address, expiring in 48h: `backend/src/limits.ts:35-38, 76-91, 242-255`
-- The shared key on the deployed stack is Gemini: `infra/template.yaml:326-331`
+- No server-side provider key and no path to one: `resolveRequestProvider` in `backend/src/app.ts` refuses a keyless request with `key_required` before any upstream call, and `buildProvider` cannot construct a provider without being handed a key, so there is nothing left to flag off; pinned by `backend/test/byo-key.test.ts`
+- The retired shared coach, as the app now presents it: `ios/AIWorkout/Core/AICoachConfig.swift` (`AICoachChoiceStore`, read as a retirement marker), `ios/AIWorkout/Features/Settings/AICoachSettingsView.swift` (the retirement notice)
 - Anthropic as a user-selectable provider: `backend/src/providers/anthropic.ts`, `ios/AIWorkout/Core/AICoachConfig.swift:11-45`
 
 ### Fitbit
@@ -473,19 +551,25 @@ Every path is relative to the repository root, `/Users/miklee/dev/AI_Workout_App
 - Absent from coach context (`TrainerContextBuilder.swift`), widget (`ios/AIWorkout/Core/WidgetSnapshotWriter.swift`), export (`ios/AIWorkout/Features/Settings/WorkoutDataExport.swift`), and all server payloads (no matches in `backend/`, `server/`, `ios/AIWorkout/Core/Competition/`)
 - Recap reduces to name/place/distance before the engine: `AdventureView.swift:231-236`
 
-### The one-shot location read (added with the map controls)
+### The one-shot location read
 - The only `CLLocationManager` in the repository, and the only file that owns one: `ios/AIWorkout/Core/LocationMoment.swift`
 - One fix per request via `requestLocation()`, never `startUpdatingLocation()`, so the hardware stops itself and no session can be left running
 - When-in-use only: `NSLocationWhenInUseUsageDescription` in `ios/AIWorkout/Info.plist`; there is no `NSLocationAlwaysAndWhenInUseUsageDescription`, no background location mode in `UIBackgroundModes`, and no location entitlement in `ios/AIWorkout/AIWorkout.entitlements`
-- Never persisted: the coordinate lives only in `LocationMoment.state` and in the map screen's `@State`, both dropped in `AdventureMapScreen.onDisappear`. No key is added to `LocalDataWipe` because there is nothing to wipe — held as a test in `ios/AIWorkoutTests/MapLocationTests.swift` `testTheWipeHasNothingNewToClear`
-- Never transmitted: no call site passes a fix to the coach context, the widget snapshot, the export, or any server payload
 - Refusal is a state and never an alert or a re-prompt: `LocationMoment.request()` returns early on `.denied`, covered by `testARefusalIsNeverAskedAgain`
 - Nothing reads location unprompted: `testItAsksNothingUntilItIsAsked`, and the UI gate `testThePickerOffersLocationRatherThanDemandingIt`
+
+There are three call sites for that one fix, and they end differently. The distinction is the whole of the location section above.
+
+- **The map's centre button, which keeps nothing.** The coordinate lives only in `LocationMoment.state` and in the map screen's `@State`, both dropped in `AdventureMapScreen.onDisappear`. No key is added to `LocalDataWipe` because there is nothing to wipe: `ios/AIWorkoutTests/MapLocationTests.swift` `testTheWipeHasNothingNewToClear`. No call site passes this fix to the coach context, the widget snapshot, or the export
+- **"Use where I am" in the route builder, which saves and transmits.** `ios/AIWorkout/Features/Adventure/CustomRouteBuilderScreen.swift` takes the fix and `AddRouteStopSheet.swift` turns it into a stop; it is persisted as `latitude`/`longitude` on the stop in `CustomRouteModels.swift`, put on the wire by `RoutePayloadMapping.swift`, and required server-side by `routeStopSchema` in `server/src/validation.ts`. This is a route's course geometry rather than a record of the author, but the coordinate is real and it does reach the server
+- **A race check-in, which transmits a verdict and never a coordinate.** `raceCheckinSchema` in `server/src/validation.ts` is `.strict()`, so a body carrying a latitude, longitude, accuracy or distance is rejected with a 400 rather than silently dropped, and no check-in row has a coordinate column. The comparison against the stop happens on the device
+- **What a participant can join, and why the policy says so.** `getRaceDetail` in `server/src/races.ts` returns the route payload and the roster's check-ins in one response, and default race visibility is `participants`. `route.stops[checkin.stopIndex]` is therefore reconstructable by anyone in the race, up to the number of stops. Disclosed under "Checking in during a race"
 
 ### Map searches (Apple system services, not our server)
 - Forward geocode of a typed address, discarded after use: `ios/AIWorkout/Features/Adventure/MapAddressSheet.swift`
 - Nearby place lookup around the displayed region, on tap only, results held in view state and never stored: `ios/AIWorkout/Features/Adventure/NearbyPlaces.swift`
-- No server-side place database was built and none is planned; the curated catalog remains a bundled file: `ios/ProgressionEngine/Sources/JourneyEngine/Resources/landmarks.json`
+- Nothing is stored from a map search: a nearby-places result set is never written, and no place record is created from anybody's search. The landmark catalog the Adventure journeys run on is a bundled file rather than a server database: `ios/ProgressionEngine/Sources/JourneyEngine/Resources/landmarks.json`
+- The places that DO reach the server are the stops on routes people author, described under "Building a route from where you are". They are stored as part of the route document that carries them and are reachable only to the people that route or race is shared with; they are not pooled, indexed, or searchable across users
 
 ### On-device storage
 - Eleven SwiftData models: `ios/AIWorkout/Debug/AppModelContainer.swift:13-25`
@@ -524,7 +608,7 @@ Every path is relative to the repository root, `/Users/miklee/dev/AI_Workout_App
 - Leaving global drops league enrolment: `server/src/app.ts:418`
 - Metric values stored per event plus daily rollups, no expiry: `server/src/metrics.ts:152-162`, `server/src/store/dynamo.ts:1230-1238`
 - Cheers are four fixed emotes, no free text: `server/src/validation.ts:180-183`
-- No user-supplied challenge names: `createChallengeSchema` in `server/src/validation.ts`
+- The free-text fields other users can see, each bounded and sanitized rather than absent: `challengeName` (optional on `createChallengeSchema` and `updateChallengeSchema`), the route and race label fields (`routeLabelText`) and stop notes (`routeNoteText`) in `server/src/validation.ts`, group names in `server/src/groups.ts`, and `display_name` and the handle on the user record. There is no message field anywhere: no route, race, challenge, group or cheer carries text addressed to a person
 - Challenge detail hidden from non-participants: `server/src/challenges.ts:653-661`
 - Avatars validated against a closed preset space: `server/src/avatars.ts`
 - Handle sanitization: `server/src/handle.ts:23-41`, rationale in `server/SECURITY.md:22-43`
