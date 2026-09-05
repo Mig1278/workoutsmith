@@ -38,24 +38,41 @@ description of a screen.
 
 ---
 
-## Google Sheets: edit the exported sheet, do not copy it
+## Google Sheets: what the app can reach in your Drive
 
-This is the most common way the Google Sheets round trip goes wrong, so it is
-first.
+**WorkoutSmith asks Google for two permissions when you connect Sheets, and they
+are not equally narrow.** Google's consent screen shows you both, so it is worth
+knowing which is which.
 
-**Edit the sheet the app made for you. Do not use File → Make a copy.** A copy
-is a new file, created by you rather than by the app, and the app cannot open
-it. It is not a bug and there is no setting that fixes it. WorkoutSmith asks
-Google for the narrowest permission that exists for this, `drive.file`, which
-lets it see only the files it created itself. That is the point of asking for
-that one: the app has no ability to look at anything else in your Drive, and the
-price of that is that a file you copied is, correctly, invisible to it. If you
-have already copied a sheet and edited it, paste your changes back into the
-original and import that one.
+`drive.file` is the narrow one. Google describes it as "only the specific Google
+Drive files you use with this app", and that is exactly what it does. It is what
+lets the app put a new spreadsheet into your Drive, and it gives no view of
+anything else in there.
 
-If you import a copy, the app will tell you it could not find that spreadsheet.
-Check that the link is the one the app exported and that you are connected with
-the Google account that owns it.
+`spreadsheets` is the wider one, and Google classes it as sensitive. It covers
+seeing, editing, creating and deleting your Google Sheets spreadsheets, and it
+is **not** limited to the files the app made. It is asked for because there is
+no narrower permission that can read and write cell values, and reading and
+writing cell values is the whole feature: without it there is no export to edit
+and no import to bring back.
+
+What the app does with it is a good deal narrower than what it is allowed to do.
+**It never lists, searches, or browses your Drive, and there is no file picker in
+it.** It touches the spreadsheets it creates for you and the ones whose links you
+paste in yourself, and nothing else. It has no way to find a sheet you have not
+handed it, and it never asks Google for one.
+
+If that is more than you want to give, do not connect Google Sheets. Nothing
+else in the app depends on it, and **Settings → App integrations → Google
+Sheets** disconnects it later and tells Google to revoke the grant.
+
+**What the importer cares about is the layout, not which file it is.** It reads
+the sheet your link points to and checks that the columns and rows are the ones
+the export laid down, so keep that shape intact when you edit. If you made a
+copy of the exported sheet and edited the copy, import the copy's link rather
+than the original's. If the app says it could not find that spreadsheet, the
+link is wrong, or you are connected with a different Google account from the one
+that owns the sheet.
 
 **How the round trip works.** From the Plan tab you can **Export this program to
 Google Sheets**, edit it in Google Sheets, and then **Import a program from
