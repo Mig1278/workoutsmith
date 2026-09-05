@@ -1,7 +1,7 @@
 # WorkoutSmith — Privacy Policy
 
 **Effective date:** August 29, 2026
-**Last updated:** 2026-08-29
+**Last updated:** 2026-09-05
 
 ---
 
@@ -414,7 +414,11 @@ Settings has an "Export workout history" option that writes your profile, progra
 
 The export file is written to a temporary folder on your device. iOS clears that folder periodically, but the app does not delete the file immediately after sharing.
 
-Your programs and your workout history can also go to a Google spreadsheet, in your own Google Drive, under your own Google account. You sign in to Google yourself, on Google's own page, and we never hold your Google credentials. The app asks for two permissions and nothing wider: one to work with spreadsheets, and one that reaches only the files it created or that you handed to it, so the rest of your Drive stays invisible to it.
+Your programs and your workout history can also go to a Google spreadsheet, in your own Google Drive, under your own Google account. You sign in to Google yourself, on Google's own page, and we never hold your Google credentials.
+
+**The app asks Google for two permissions, and they are not equally narrow.** `drive.file` is the narrow one. Google describes it as "only the specific Google Drive files you use with this app", and that is exactly what it does: it is what lets the app put a new spreadsheet into your Drive, and it gives no view of anything else in there. `spreadsheets` is the wider one, and Google classes it as sensitive. It covers seeing, editing, creating and deleting your Google Sheets spreadsheets, and it is **not** limited to the files the app made. It is asked for because there is no narrower permission that can read and write cell values, and reading and writing cell values is the whole feature: without it there is no export to edit and no import to bring back.
+
+What the app does with it is a good deal narrower than what it is allowed to do. **It never lists, searches, or browses your Drive, and there is no file picker in it.** It touches the spreadsheets it creates for you and the ones whose links you paste in yourself, and nothing else. It has no way to find a sheet you have not handed it, and it never asks Google for one. If that is more than you want to give, do not connect Google Sheets — nothing else in the app depends on it, and disconnecting in Settings erases the access from your phone and tells Google to revoke the grant.
 
 Workout history travels in that direction only. A program can come back in from a spreadsheet; results never can, and a history sheet is refused outright, because a number typed in a cell is not evidence that you lifted anything.
 
