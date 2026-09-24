@@ -28,7 +28,7 @@ Feedback is copied once a day into a private spreadsheet that only the developer
 reads. **What it does not have is a reply channel** — the form sends one way, so
 if you need an answer, use email.
 
-**By email: mignet1278@gmail.com.** It is read by the developer personally. Use
+**By email: workoutsmithgeneralcontact@gmail.com.** It is read by the developer personally. Use
 it if you do not have the app installed, if you cannot get into it, or if you
 want a reply.
 
@@ -191,7 +191,7 @@ something that does not belong in the app, or somebody behaving badly, report
 it.
 
 **How to report:** use **Settings → Send feedback**, or email
-**mignet1278@gmail.com**. Both go straight to the developer, who reads every
+**workoutsmithgeneralcontact@gmail.com**. Both go straight to the developer, who reads every
 one. Say what you saw, where you saw it, and the handle or name involved. A
 screenshot helps more than anything else. Content that breaks the rules is
 removed, and an account can be removed from a race or from the service.
@@ -231,7 +231,7 @@ Access & Devices → WorkoutSmith** and confirm the categories are switched on.
 
 ## Contact
 
-**mignet1278@gmail.com**, or **Settings → Send feedback** inside the app.
+**workoutsmithgeneralcontact@gmail.com**, or **Settings → Send feedback** inside the app.
 
 WorkoutSmith is published by Michael Lee, an individual developer based in
 Massachusetts, USA.

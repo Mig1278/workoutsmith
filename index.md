@@ -7,4 +7,4 @@ I built this for me and my family but figured others might like it too.
 - [Support](support)
 - [Privacy Policy](privacy)
 
-Contact: mignet1278@gmail.com
+Contact: workoutsmithgeneralcontact@gmail.com
