@@ -1,0 +1,28 @@
+# gitleaks-hook-config: 1
+# gitleaks configuration, read by .githooks/pre-commit and .githooks/pre-push.
+#
+# gitleaks' default rules, plus two ported from the app repo's audit so the
+# same things are caught here. Nothing is allowlisted: a full-history scan on
+# 2026-09-25 found no findings. If a false positive ever needs an exception,
+# allowlist the exact value, not the file, and write down why.
+#
+# Re-run with:  gitleaks git --redact --no-banner .
+
+[extend]
+useDefault = true
+
+# gitleaks' own private-key rule needs the whole block, header to footer; this
+# one fires on the header alone, which catches a key that arrives split across
+# lines or truncated.
+[[rules]]
+id = "private-key-header"
+description = "A PEM private key header."
+regex = '''-----BEGIN (?:RSA |EC |OPENSSH |DSA |ENCRYPTED )?PRIVATE KEY-----'''
+keywords = ["private key-----"]
+
+# Broader than gitleaks' Slack rules, which each want one exact token layout.
+[[rules]]
+id = "slack-token-broad"
+description = "A Slack token of any type."
+regex = '''\bxox[baprs]-[0-9A-Za-z-]{10,}'''
+keywords = ["xoxb-", "xoxa-", "xoxp-", "xoxr-", "xoxs-"]

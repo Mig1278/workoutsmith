@@ -1,0 +1,77 @@
+#!/bin/sh
+# gitleaks-hook: pre-commit. Refuse a commit whose STAGED changes contain a
+# secret. Scans only what this commit adds, with --redact, so a finding names
+# the file, line and rule and never prints the secret itself.
+#
+# FAILS CLOSED. If gitleaks cannot be found, or exits with anything other than
+# 0, the commit is refused. A scanner that is missing must not look the same as
+# a scanner that ran and found nothing.
+#
+# gitleaks is looked for on PATH, then in the Homebrew locations, because
+# launchd jobs and GUI git clients run with PATH=/usr/bin:/bin:/usr/sbin:/sbin
+# and would otherwise be refused every commit with gitleaks installed. Setting
+# GITLEAKS_FALLBACK_DIRS="" turns the fallback off (used to prove fail-closed).
+#
+# False positive? Allowlist the exact value in .gitleaks.toml, with the reason.
+# Do not use --no-verify: the pre-push hook scans the same commits again.
+
+find_gitleaks() {
+  if command -v gitleaks >/dev/null 2>&1; then
+    command -v gitleaks
+    return 0
+  fi
+  for d in ${GITLEAKS_FALLBACK_DIRS-/opt/homebrew/bin /usr/local/bin}; do
+    if [ -x "$d/gitleaks" ]; then
+      echo "$d/gitleaks"
+      return 0
+    fi
+  done
+  return 1
+}
+
+if ! gl="$(find_gitleaks)"; then
+  echo "gitleaks-hook: COMMIT BLOCKED -- gitleaks is not installed, so this commit" >&2
+  echo "gitleaks-hook: could not be scanned for secrets. Install it and commit again:" >&2
+  echo "gitleaks-hook:   brew install gitleaks" >&2
+  exit 1
+fi
+
+blocked() {
+  echo "gitleaks-hook: COMMIT BLOCKED -- the staged changes look like they contain a" >&2
+  echo "gitleaks-hook: secret (details above, value redacted), or gitleaks failed to" >&2
+  echo "gitleaks-hook: run. Remove the secret from the staged file(s) and commit again." >&2
+  exit 1
+}
+
+top="$(git rev-parse --show-toplevel)" || exit 1
+# Which config: the worktree's own, versioned with the code it allowlists, once
+# it is the generation written for this hook (it carries the marker line).
+# A worktree on an older branch gets the copy installed beside this hook
+# instead, so its known test fixtures are not refused for predating the hook.
+# With neither, gitleaks' default rules, which are stricter, not looser.
+config=""
+if [ -f "$top/.gitleaks.toml" ] && grep -q '^# gitleaks-hook-config' "$top/.gitleaks.toml"; then
+  config="$top/.gitleaks.toml"
+elif [ -f "$(dirname "$0")/gitleaks.toml" ]; then
+  config="$(dirname "$0")/gitleaks.toml"
+elif [ -f "$top/.gitleaks.toml" ]; then
+  config="$top/.gitleaks.toml"
+fi
+run_gitleaks() {
+  if [ -n "$config" ]; then "$gl" "$@" --config "$config"; else "$gl" "$@"; fi
+}
+
+# 1. The lines this commit adds.
+run_gitleaks git --staged --redact --no-banner --verbose "$top" || blocked
+
+# 2. The whole staged version of every file this commit adds or changes. The
+# diff alone is not enough: it carries no context, so a key body pasted between
+# a header and footer that are already committed arrives as bare base64 and
+# matches nothing (measured: swapping the body of the test key in
+# server/test/tokens.test.ts passed the diff scan). Copied out of the index,
+# not read from the working tree, so what is scanned is what would be committed.
+tmp="$(mktemp -d "${TMPDIR:-/tmp}/gitleaks-staged.XXXXXX")" || blocked
+trap 'rm -rf "$tmp"' EXIT
+git diff --cached --name-only --diff-filter=ACMR -z |
+  git checkout-index -z --stdin --prefix="$tmp/" || blocked
+(cd "$tmp" && run_gitleaks dir --redact --no-banner --verbose .) || blocked

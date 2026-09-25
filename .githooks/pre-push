@@ -1,0 +1,71 @@
+#!/bin/sh
+# gitleaks-hook: pre-push. The second net: scan every commit about to be pushed,
+# so a commit made with --no-verify (or on a machine without the pre-commit
+# hook) still cannot reach the remote carrying a secret. Output is redacted.
+#
+# FAILS CLOSED, like pre-commit: no gitleaks, or any non-zero exit, blocks the
+# push. See pre-commit for why gitleaks is also looked for outside PATH.
+#
+# git feeds one line per ref being pushed on stdin:
+#   <local ref> <local sha> <remote ref> <remote sha>
+
+find_gitleaks() {
+  if command -v gitleaks >/dev/null 2>&1; then
+    command -v gitleaks
+    return 0
+  fi
+  for d in ${GITLEAKS_FALLBACK_DIRS-/opt/homebrew/bin /usr/local/bin}; do
+    if [ -x "$d/gitleaks" ]; then
+      echo "$d/gitleaks"
+      return 0
+    fi
+  done
+  return 1
+}
+
+blocked() {
+  echo "gitleaks-hook: PUSH BLOCKED -- $1" >&2
+  exit 1
+}
+
+remote="$1"
+gl="$(find_gitleaks)" || blocked "gitleaks is not installed, so the commits could not be scanned. Install it: brew install gitleaks"
+top="$(git rev-parse --show-toplevel)" || exit 1
+# Which config: the worktree's own, versioned with the code it allowlists, once
+# it is the generation written for this hook (it carries the marker line).
+# A worktree on an older branch gets the copy installed beside this hook
+# instead, so its known test fixtures are not refused for predating the hook.
+# With neither, gitleaks' default rules, which are stricter, not looser.
+config=""
+if [ -f "$top/.gitleaks.toml" ] && grep -q '^# gitleaks-hook-config' "$top/.gitleaks.toml"; then
+  config="$top/.gitleaks.toml"
+elif [ -f "$(dirname "$0")/gitleaks.toml" ]; then
+  config="$(dirname "$0")/gitleaks.toml"
+elif [ -f "$top/.gitleaks.toml" ]; then
+  config="$top/.gitleaks.toml"
+fi
+
+while read -r local_ref local_sha remote_ref remote_sha; do
+  # A deleted ref pushes no content.
+  case "$local_sha" in *[!0]*) ;; *) continue ;; esac
+  # An update the remote already has the base of: scan only the new commits.
+  # A new ref, or a base we have not fetched: scan everything not already on
+  # this remote, which is a superset and never misses a commit.
+  case "$remote_sha" in
+    *[!0]*)
+      if git cat-file -e "${remote_sha}^{commit}" 2>/dev/null; then
+        range="${remote_sha}..${local_sha}"
+      else
+        range="${local_sha} --not --remotes=${remote}"
+      fi ;;
+    *) range="${local_sha} --not --remotes=${remote}" ;;
+  esac
+
+  if [ -n "$config" ]; then
+    "$gl" git --redact --no-banner --verbose --config "$config" --log-opts="$range" "$top"
+  else
+    "$gl" git --redact --no-banner --verbose --log-opts="$range" "$top"
+  fi || blocked "a commit in ${local_ref} looks like it contains a secret (details above, value redacted), or gitleaks failed to run. The commit has to be rewritten without it before it can be pushed."
+done
+
+exit 0
