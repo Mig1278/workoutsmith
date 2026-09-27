@@ -136,7 +136,7 @@ Some of these reads are kept nowhere. Others become part of something you share 
 
 ### The fitness test's outdoor mile
 
-During the fitness test's outdoor mile, and only then, your phone or watch uses GPS to measure the distance you walk, for up to 30 minutes. Only the distance is kept. Your route and coordinates are not stored, not sent to our server, and not given to the coach.
+During the fitness test's outdoor mile, and only then, your phone or watch uses GPS to measure the distance you walk. Only the distance is kept. Your route and coordinates are not stored, not sent to our server, and not given to the coach.
 
 ### Your home, for Adventure journeys
 
