@@ -107,9 +107,11 @@ The coach is optional. Logging, the program builder, progression, Adventure and 
 | Your profile | Your goals, fitness level, experience and injury notes, as you wrote them |
 | Your preferences | Coach tone, reply length and training style |
 | Your program | Program name, length, days per week, and session names and muscle groups |
+| A program request | When you ask the coach to write a program: your equipment, where you train, your schedule, focus areas, whether you wear a heart-rate monitor, and working weights from your logged sets |
 | Today and recent training | Today's session with its targets; a handful of recent workouts with the reps and weights you logged; weekly volume by muscle group and similar summaries worked out from your logs |
 | A workout in progress | The current exercise, set and what you have logged so far. If you are wearing the watch app, also your heart rate at that moment and your heart-rate zone |
 | Health and readiness | Today's step count, an average workout heart rate, your Health-recorded body weight, and your readiness score and band |
+| Fitness test results | Only if you build a plan from the fitness test: your test scores (such as plank, push-up and walk results), estimated aerobic fitness and heart-rate recovery |
 | Fatigue and milestones | A plain-text fatigue summary and any deload recommendation, level-ups, and the outcome of anything the coach logged for you |
 | Where a program came from | A marker when a plan came from a friend or a spreadsheet, so the coach treats that text as a label and never as an instruction. It never carries the other person's name or any detail about the file |
 | What the app has learned about you | A few sentences summarising patterns in your logged workouts |
