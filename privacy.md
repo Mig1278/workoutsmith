@@ -134,6 +134,10 @@ This section describes how the app uses location today. If a future version uses
 
 Some of these reads are kept nowhere. Others become part of something you share with other people, and those do reach our server. Here is each one.
 
+### The fitness test's outdoor mile
+
+During the fitness test's outdoor mile, and only then, your phone or watch uses GPS to measure the distance you walk, for up to 30 minutes. Only the distance is kept. Your route and coordinates are not stored, not sent to our server, and not given to the coach.
+
 ### Your home, for Adventure journeys
 
 Setting a home is optional. **You type an address or a town; the app does not detect it.** Apple's system geocoder converts the text to a coordinate, which means **the text you type is sent to Apple**, just as it is when you search in Maps. Only the latitude and longitude are saved, never the address text, and they stay on your device. The coordinate is used only to measure your progress along a journey. It is not included in coach requests, the widget, the data export or anything sent to our server.
