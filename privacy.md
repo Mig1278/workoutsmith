@@ -1,7 +1,7 @@
 # WorkoutSmith Privacy Policy
 
 **Effective date:** August 29, 2026
-**Last updated:** (set on publish)
+**Last updated:** 2026-10-09
 
 ---
 
@@ -33,7 +33,7 @@ WorkoutSmith is published by Michael Lee, an individual developer based in Massa
 
 Your data can be in three places, and the differences between them matter.
 
-**1. On your devices.** This is where almost everything is kept: your profile, programs, every workout and set you have logged, your chat with the coach, your settings, XP and achievements, your saved home coordinate, and the app's diagnostic logs. If you use the Apple Watch app, the watch keeps the workout in progress and a short diagnostic log until it can hand them to your iPhone. The app does not sync any of this to iCloud and has no CloudKit configuration. If you restore a new phone from a backup, your data comes back through Apple's backup, not through us.
+**1. On your devices.** This is where almost everything is kept: your profile, programs, every workout and set you have logged, your chat with the coach, your settings, XP and achievements, your groups, your saved home coordinate, and the app's diagnostic logs. If you use the Apple Watch app, the watch keeps the workout in progress and a short diagnostic log until it can hand them to your iPhone. The app does not sync any of this to iCloud and has no CloudKit configuration. If you restore a new phone from a backup, your data comes back through Apple's backup, not through us.
 
 **2. On our server.** This is a database and private file storage in Amazon Web Services (US East, Northern Virginia). It holds what the features you use with other people need, and "What we store on our server" lists it. It does not hold your workout history, programs, coach chat, sleep, heart rate, weight or home location, except for specific parts you choose to share (a program you send to a friend, or workouts you share with a coach).
 
@@ -45,12 +45,14 @@ Your data can be in three places, and the differences between them matter.
 
 The following are stored on your device and are not sent to our server, to the AI coach, or anywhere else, except where an item says so:
 
-- **Your full workout history**: every exercise, set, rep, weight, reps in reserve (RIR), warm-up and rest. Parts of it leave only if you share workouts with a coach (see "Sharing your workout history with a coach").
+- **Your full workout history**: every exercise, set, rep, weight, reps in reserve (RIR), distance, time, warm-up and rest. Parts of it leave your device only in these ways: if you use the AI coach, your recent workouts, including reps in reserve, distances and times, are part of each coach request (see "The AI coach"); if you share your workouts with a coach, a summary of each workout you finish goes to that person, without reps in reserve (see "Sharing your workout history with a coach"); if you turn on share-back for a program a friend sent you, a summary of your sessions on that program goes to its author (see "Programs shared between friends"); and if you export your history yourself (see "Getting your data out").
+- **How long each set took and the rest after it**, and, if you turn on **Heart rate and recovery**, **each set's heart rate**: its peak and average, and how far it dropped before your next set. These are kept on this iPhone and are not sent to our server or to the AI coach. Each set's heart rate is also left out of device backups. Both are included in the workout history file you can export from Settings, and neither is in a Google spreadsheet export.
+- **Your groups.** A group is a private list of your friends, kept on this iPhone. Nobody is told they are on one, and the list is not sent to our server. If you start a challenge or a race with a group, each person gets their own invitation, as with any invitation.
 - **Your programs**, whether generated or built by hand. A program leaves only if you send it to a friend.
 - **Your chat and voice conversations with the AI coach.** The transcript is kept only on your device. Each message you send goes to your AI provider with the context described under "The AI coach", and our relay keeps no copy.
 - **Your injuries, goals, experience level and equipment notes.** These go to your AI provider as part of a coach request, and nowhere else.
 - **Your birth year, biological sex and hand-entered bodyweight.** These are optional and are used only for strength-standard tables on the device.
-- **Sleep, resting heart rate, heart rate variability and other overnight readings.** These are read from Apple Health and used on the device. If you turn on **Heart rate and recovery** (Settings > Health & Fitness; it is off until you do), the app shows them as trends against your own usual range, such as your recent heart rate variability and last night's sleep compared with your usual. What it keeps is stored on this iPhone and left out of device backups. No setting in the app sends the underlying readings anywhere.
+- **Sleep, resting heart rate, heart rate variability and the other readings Heart rate and recovery uses** (walking heart rate, VO2 max, blood oxygen, breathing rate and wrist temperature). These are read from Apple Health and used on the device. If you turn on **Heart rate and recovery** (Settings > Health & Fitness; it is off until you do), the app shows them as trends against your own usual range, such as your recent heart rate variability and last night's sleep compared with your usual. What it keeps is stored on this iPhone and left out of device backups. No setting in the app sends the underlying readings anywhere.
 - **The training profile the app builds from your logged workouts.** This covers what you have shown you can lift, how your reps-in-reserve reports compare with what you then do, and which exercises you swap or skip. It is computed and stored on the device. If you use the AI coach, a few sentences summarising it are part of the coach request.
 - **The change journal for a program a friend shared with you**, and **the changes you have kept to a plan**. These stay on your device unless you turn on share-back for that program or share your workouts with a coach, as described below.
 - **Your home coordinate** for Adventure journeys.
@@ -62,13 +64,13 @@ The following are stored on your device and are not sent to our server, to the A
 
 Apple Health is optional. The app works without it. You grant access from Settings one category at a time, and you can revoke it whenever you like in the iOS Health app.
 
-**What the app reads.** With your permission it reads step count, walking and running distance, cycling distance, heart rate, resting heart rate, heart rate variability, body mass, sleep analysis, and your workouts (including swimming distance recorded on a workout). If you turn on Heart rate and recovery, it also reads VO2 max, walking heart rate, breathing rate, sleeping wrist temperature and blood oxygen. It reads workouts from every source, so workouts recorded by an Apple Watch or another app are included. How far back a read reaches is limited by what you allow Apple Health to share; on newer versions of iOS, Apple itself asks you to choose between sharing only your recent history or all of it, and the app works within whatever you choose. Two of these reads treat that history differently:
+**What the app reads.** With your permission it reads your workouts (including swimming distance recorded on a workout), step count, walking and running distance, cycling distance, heart rate, body weight, and resting heart rate, which sets your heart-rate zones. Your sleep, heart rate variability, walking heart rate, VO2 max, blood oxygen, breathing rate and sleeping wrist temperature are used only if you turn on **Heart rate and recovery** (Settings > Health & Fitness; it is off until you do), to show your overnight and cardio trends on your iPhone. Each set's heart rate (see "What stays on your device") is also worked out only while Heart rate and recovery is on. It reads workouts from every source, so workouts recorded by an Apple Watch or another app are included. How far back a read reaches is limited by what you allow Apple Health to share; on newer versions of iOS, Apple itself asks you to choose between sharing only your recent history or all of it, and the app works within whatever you choose. Two of these reads treat that history differently:
 - **The journey odometer and competitions** (the Adventure tab, challenges and leagues) can show older Apple Health history as part of your journey total or a competition total, worked out on the device. Not all of that history counts toward rewards: badges, XP, milestones and other achievements are earned only from activity logged after you install and start using the app.
 - **Your training profile** (including the Endurance track) reads whatever workout history Apple Health shares with the app, calculated on the device. It shapes coaching and is informational only; it never earns a reward.
 
 **What the app writes.**
 - When you finish a workout on your iPhone, the app saves it to Apple Health with its type, start time and end time. On iOS 18 and later it also saves an effort score if you rated how hard the workout or your sets were. It does not write a calorie estimate, distance, heart rate, steps or body weight.
-- If you run a workout on your Apple Watch without your phone, the watch saves it to Apple Health using Apple's own workout recorder, including the active energy the watch measures.
+- If you run a workout on your Apple Watch without your phone, the watch saves it to Apple Health using Apple's own workout recorder, including the active energy the watch measures. If the watch could not save it, your iPhone saves it instead, in the same way it saves its own workouts.
 - If you delete a workout log in the app, the matching Health entry the app created is deleted too.
 
 **Background access.** Unless you turn it on, the app reads Health only while you have it open. If you turn on **Update my boards in the background** (Settings > Health & Fitness; off until you turn it on), Apple Health can wake the app when you have new steps, distance or runs. The app then sends the same daily totals it would send if you opened it, and only for metrics you have opted in as described under (b) below. It uses only the Health access you have already granted and asks for nothing new. Turning it off, or disconnecting Apple Health, stops it.
@@ -86,7 +88,7 @@ If you have done none of these for a metric, the app does not even read it. Sett
 
 *c) Live status.* If you turn Live on, your friends can see which of a small set of effort bands you are training in. The band is worked out from your heart rate on your device. Only the band is sent, never the heart rate itself.
 
-No current setting sends your sleep, resting heart rate, heart rate variability, overnight readings (breathing rate, wrist temperature and blood oxygen), VO2 max, walking heart rate, cycling distance or lifetime journey mileage anywhere.
+No current setting sends your sleep, resting heart rate, heart rate variability, overnight readings (breathing rate, wrist temperature and blood oxygen), VO2 max, walking heart rate, each set's heart rate, cycling distance or lifetime journey mileage anywhere.
 
 ---
 
@@ -107,24 +109,24 @@ The coach is optional. Logging, the program builder, progression, Adventure and 
 | Your profile | Your goals, fitness level, experience and injury notes, as you wrote them, and which limb you are resting, if you turned on Training one side |
 | Your preferences | Coach tone, reply length and training style |
 | Your program | Program name, length, days per week, and session names and muscle groups |
-| A program request | When you ask the coach to write a program: your equipment, where you train, your schedule, focus areas, whether you wear a heart-rate monitor, working weights from your logged sets and any lifts you have entered, and which limb you are resting, if you turned on Training one side |
-| Today and recent training | Today's session with its targets; a handful of recent workouts with the reps and weights you logged, reps in reserve and each side's result; weekly volume by muscle group and similar summaries worked out from your logs |
+| A program request | When you ask the coach to write a program: your equipment, where you train, your schedule and what should happen to a training day you miss, focus areas, whether you wear a heart-rate monitor, working weights from your logged sets and any lifts you have entered, and which limb you are resting, if you turned on Training one side |
+| Today and recent training | Today's session with its targets; a handful of recent workouts with the reps and weights you logged, the distances and times of cardio, reps in reserve and each side's result; weekly volume by muscle group and similar summaries worked out from your logs |
 | A workout in progress | The current exercise, set and what you have logged so far. If you are wearing the watch app, also your heart rate at that moment and your heart-rate zone |
 | Health | Today's step count, an average workout heart rate, and your Health-recorded body weight |
-| Fitness test results | Only if you build a plan from the fitness test: your test scores (such as plank, push-up and walk results), estimated aerobic fitness, heart-rate recovery and your heart rate at the end of the walk |
+| Fitness test results | Only if you build a plan from the fitness test: your test scores (such as plank, push-up, pulling and walk results), estimated aerobic fitness, heart-rate recovery and your heart rate at the end of the walk |
 | Fatigue and milestones | A plain-text fatigue summary and any deload recommendation, level-ups, and the outcome of anything the coach logged for you |
 | Where a program came from | A marker when a plan came from a friend or a spreadsheet, so the coach treats that text as a label and never as an instruction. It never carries the other person's name or any detail about the file |
 | What the app has learned about you | A few sentences summarising patterns in your logged workouts |
 
 Your conversation so far in the current chat is sent with each turn.
 
-**What the coach is never sent.** None of the following leaves your device for the AI coach: your name, email, user id or device id; your age, height or biological sex; your home address or location; your friends, standings or trophies; your raw sleep, resting heart rate, HRV or other overnight readings, VO2 max or walking heart rate; your hand-entered bodyweight.
+**What the coach is never sent.** None of the following leaves your device for the AI coach: your name, email, user id or device id; your age, height or biological sex; your home address or location; your friends, standings or trophies; your raw sleep, resting heart rate, HRV or other overnight readings, VO2 max, walking heart rate or each set's heart rate; your hand-entered bodyweight.
 
 **A caution.** The profile fields, especially **injuries**, are free text you write, and whatever you type there goes to your AI provider. If you record a medical detail there, it is part of your coach requests.
 
 **Voice.** Speech is transcribed by Apple's on-device speech recognition where your device supports it. Only the text is sent to the coach. Audio never reaches our servers.
 
-**Your controls.** Nothing goes to the coach until you have accepted the disclaimer and turned on AI data sharing. Turning that off stops all coach requests. Removing your key turns the coach off completely.
+**Your controls.** Nothing goes to the coach until you have accepted the disclaimer and turned on AI data sharing. Turning that off stops all coach requests. The coach speaks first during a workout, for example as a rest period ends, only if you also turn on **Let the coach speak first** in Settings, which is off until you do. Removing your key turns the coach off completely.
 
 ---
 
@@ -174,7 +176,7 @@ All of these go to Apple as system services, as they do in Maps. **None of them 
 
 If you never sign in, our server has no account record for you. The only things it can hold from you are feedback you send and short-lived rate-limit counters.
 
-**Signing in.** Sign in with Apple gives us a stable identifier that Apple creates for this app, and that identifier is your account. You may also give a display name.
+**Signing in.** Sign in with Apple gives us a stable identifier that Apple creates for this app, and that identifier is your account. Your display name is the name friends see. It starts as the name Apple shares when you first sign in, if any, and the name in your profile in the app is how you change it: when you are signed in, saving it there saves it on our server.
 
 **Your email address.** Apple also sends an email address when you sign in. **We do not store it.** We store a *keyed fingerprint* of it instead: the address run through a one-way function with a secret key that is kept outside the database. The fingerprint cannot be turned back into your address, and we have no way to email you. It exists so that a friend who already knows your address can send you a friend request.
 
@@ -195,9 +197,9 @@ If you never sign in, our server has no account record for you. The only things 
 | Challenges and leagues | The challenges you are in (format, metric, goal and your standing), and your league division, weekly score, rank and outcome |
 | Cheers | In a challenge: which of our fixed set of cheers you sent, and to whom. Between friends: the emote is not stored. The recipient's activity feed records that you cheered them, and a marker records that today's bonus has been used. There is no free-text messaging between users anywhere in this app |
 | Metric values | The activity numbers for the metrics you compete on or share, as individual entries and daily totals |
-| Daily goals | The daily step goal you set for the friends board. It is used to work out your own percentage and is shown to nobody else |
+| Daily goals | The daily step goal you set. It is used to work out your own percentage on the friends board and, if you join the Active days league, which of your days count. The goal itself is shown to nobody else |
 | Trophies | Placement, medal, metric, score, and your display name at the time |
-| Groups | Friend groups you create or join: the group name, members, owner, and whether members can invite others |
+| Shared groups | Only groups made with an earlier version of the app, when groups were shared: the group name, its members and owner, and whether members could invite others. Nobody can join one any more, and the owner can still rename or delete it. Groups you make now are private lists on your iPhone and are not stored here |
 | Programs and workouts you share | A program you send to a friend; if you turn on share-back for a program you adopted, a summary of how your sessions went; and, if you share your workouts with a coach, a summary of each workout you finish (see "Who can see what") |
 | Routes and races | Routes you build (name, stops with their coordinates, names, short notes and links, and distances) and the races run on them (name, activity, schedule, settings, who is racing and who invited whom). Each check-in records which stop you reached, when, and whether your phone's fix agreed. Check-ins carry no coordinate: the only coordinates on our server are the route's stops |
 | Route photographs | Pictures you attach to a route stop. Kept in private cloud storage, with embedded location and camera data removed on your device and refused by the server if any is left. Screened automatically, as described under "Photographs taken during a race". Shown through short-lived links to the people you share the route or race with, and deleted after you delete the route |
@@ -211,7 +213,7 @@ If you never sign in, our server has no account record for you. The only things 
 | Security records | A log of security-relevant actions on your account, such as sign-ins and friend changes, with your account id, IP address and user-agent. Kept 90 days. A few records (an account deletion, a moderation decision, a preserved photo) are kept longer without the IP address or user-agent |
 | Rate-limit counters | Short-lived counters keyed to your account id or IP address, used to stop abuse. They expire within two days |
 
-**What is not on our server.** No setting uploads your coach conversations, sleep, resting heart rate, HRV, body weight, injuries, goals, birth year or home coordinate. Your workouts and programs are uploaded only when you choose to send a program to a friend or share your workouts with a coach. Nothing on this list leaves your device by default.
+**What is not on our server.** No setting uploads your coach conversations, sleep, resting heart rate, HRV, each set's heart rate, body weight, injuries, training goals, birth year, groups or home coordinate. Your workouts and programs are uploaded only when you choose to send a program to a friend or share your workouts with a coach. Nothing on this list leaves your device by default.
 
 ---
 
@@ -276,7 +278,7 @@ Race photographs are not yet switched on for everyone. When they are available, 
 
 **Reporting.** Anyone who can see a photo can report it by choosing one of a small set of broad reasons. There is nowhere to type. A reported photo is **hidden from everyone immediately** until the organizer decides whether to restore it or take it down. **The organizer is never told who reported it.** While a report is open, the photo's file is kept, hidden from everyone, even if a deletion schedule would otherwise remove it. That is because the law can require content connected to a report to be preserved. This is the one exception to the photo-deletion promises on this page.
 
-**Blocking.** You can block someone from their photo in a race, and unblock them in **Settings > Blocked people**. Blocking works in both directions and everywhere: each of you stops seeing the other's photos, cheers, shared programs, shared workouts, routes and friend requests, any workout sharing between you ends and what was shared is deleted, and a friendship ends (unblocking does not restore it). On leaderboards and rosters, the blocked person appears as a nameless "Hidden participant", with scores intact, so rankings stay true. **Nobody is told they have been blocked.**
+**Blocking.** You can block someone from their photo in a race, and unblock them in **Settings > Blocked people**. Blocking works in both directions and everywhere: each of you stops seeing the other's photos, cheers, shared programs, shared workouts, routes and friend requests, any workout sharing between you ends and what was shared is deleted, and a friendship ends (unblocking does not restore it). On leaderboards and rosters, the blocked person appears as "Racer X", with no name, no avatar of their own and no account id, but with scores intact, so rankings stay true. **Nobody is told they have been blocked.**
 
 **Retention.** Photos are deleted six months after the race ends. **If you want to keep a picture, download it** within that time. Race results (who ran, who reached which stop, finishing order and standings) are kept as long as your account, so your history and trophies stay accurate.
 
@@ -309,6 +311,10 @@ Anyone can report something that is not a photo, such as a shared plan or route,
 ## Feedback you send us
 
 The in-app feedback form sends a category, your message, and a screenshot if you choose to attach one. It also sends technical details that the form lists before you send: app version and build, device model, iOS version, the screen you were on and the last few screens you visited, your locale and timezone, free disk space, uptime, and whether your AI key passed its checks (never the key itself).
+
+**Exercise requests.** If the exercise you want is not in the app, you can request it from the exercise picker. A request is sent through the same form, as feedback of its own type, with the exercise's name and any details you choose to add, such as a YouTube link, the muscles it works, the equipment it needs and how it is measured. It is stored and kept like any other feedback.
+
+**If you are offline.** A report that cannot be sent straight away, with any screenshot or log you attached, is saved on your device, left out of device backups, and sent automatically when you are back online. It is sent once, however many tries it takes, and "Delete all data" removes anything still waiting.
 
 **You can send feedback anonymously.** Our server makes that decision, not the app: no account id or name is written to an anonymous report.
 
@@ -344,7 +350,7 @@ An attached log is stored with your feedback and copied to the triage spreadshee
 
 ## Your subscription
 
-WorkoutSmith offers two monthly subscriptions in the app, **WorkoutSmith Premium** and **WorkoutSmith Coach**. Both renew automatically, and neither can be shared through Family Sharing. The only difference is how many people you can coach: a small number with Premium, with no limit on Coach. A subscription unlocks starting a workout, building a program, and the competitive features. Your history and progress, the AI coach and voice trainer, Adventure, and everything in Settings (including data export and account deletion) stay available whether or not you subscribe.
+WorkoutSmith offers two monthly subscriptions in the app, **WorkoutSmith Premium** and **WorkoutSmith Coach**. Both renew automatically, and neither can be shared through Family Sharing. The only difference is how many people you can coach: a small number with Premium, with no limit on Coach. A subscription unlocks starting a workout, building a program, races and leagues. Your history and progress, the AI coach and voice trainer, Adventure, your steps, streak, journey, map and your own routes, your friends and groups, challenges (joining one, starting one and inviting friends to one), and everything in Settings (including data export and account deletion) stay available whether or not you subscribe.
 
 **Apple takes the payment; we never see a card.** Purchases go entirely through Apple's in-app purchase system. No payment processor is built into the app, and no card number, billing address or payment credential is entered into, held by, or sent by WorkoutSmith. You manage or cancel the subscription in your Apple account settings. Apple's privacy policy covers what Apple does with the transaction.
 
@@ -397,7 +403,7 @@ This is how WorkoutSmith works today. If any of it changes, we will update this 
 
 ## Getting your data out
 
-Settings has an "Export workout history" option that writes your profile, programs and full workout history (every set, rep and weight) to a JSON file you can save or share. It does not include your chat history, body weight, birth year or home location. The file is written to a temporary folder on your device, which iOS clears periodically.
+Settings has an "Export workout history" option that writes your profile, programs and full workout history (every set, rep and weight, how long each set took and the rest after it, and, if Heart rate and recovery is on, each set's heart rate) to a JSON file you can save or share. It does not include your chat history, body weight, birth year or home location. The file is written to a temporary folder on your device, which iOS clears periodically.
 
 Your programs and history can also go to a Google spreadsheet (see above), and you can export your diagnostic log from Settings > Diagnostic mode.
 
@@ -416,6 +422,8 @@ There are two separate controls, because they do different things.
 - your saved home coordinate;
 - every setting, including Health category toggles, reminders, streak history, and your AI disclaimer and data-sharing consent (so both are asked again before anything goes to a coach);
 - your AI provider key, your Google tokens, and your sign-in tokens, from the Keychain;
+- your groups, what Heart rate and recovery has kept, and each set's heart rate;
+- any feedback still waiting to be sent;
 - cached account details, sync bookkeeping, route photos, the cached friends list, the widget's snapshot, and any export file still in the temporary folder.
 
 It also deletes the workouts this app wrote to Apple Health, leaving other apps' workouts alone.
@@ -456,7 +464,7 @@ The server database keeps encrypted backups for up to 35 days for disaster recov
 WorkoutSmith is not directed to children and is not intended for anyone under 13. We do not knowingly collect personal information from children under 13.
 
 - **There is no messaging between users and no comments.** Encouragement is limited to a fixed set of reactions we provide, never free text.
-- **Some text is visible to other people:** display names and handles; names of challenges, groups, routes and races; and short notes on route stops. All of it labels something rather than messaging a person, and names are checked against a list of offensive words and refused if they match.
+- **Some text is visible to other people:** display names and handles; names of challenges, routes, races and older shared groups; and short notes on route stops. All of it labels something rather than messaging a person, and names are checked against a list of offensive words and refused, or replaced with a neutral label, if they match.
 - **Photographs.** Avatars are preset icons, not photos. Photos enter the app in three ways: attached to a route stop, added during a race (not switched on yet), or attached to feedback. Route and race photos have their embedded data removed, are screened automatically, and are shown only to people the route or race is shared with. Feedback screenshots go only to the developer. The screener **does not detect child sexual abuse material**. Report anything of that kind to the National Center for Missing and Exploited Children at **report.cybertip.org**.
 - **Community rules are enforced.** Everyone accepts them before training. Anyone can report content or block another person, organizers can remove people from races, and we can suspend accounts.
 - **There is no user search or directory**, and nothing is public by default. Global visibility needs a deliberate opt-in and a handle.
@@ -494,7 +502,7 @@ This policy is governed by the laws of the Commonwealth of Massachusetts, USA.
 
 # Appendix: where each claim was verified
 
-Every path is relative to the root of the app's source repository. A bare file name or short path means the app's file of that name. Line numbers were re-checked against the code on 2026-09-26.
+Every path is relative to the root of the app's source repository. A bare file name or short path means the app's file of that name. Line numbers were re-checked against the code on 2026-09-26. Entries added or changed for version 1.3 were checked against the 1.3 release candidate on 2026-10-09 and cite files and symbols rather than line numbers.
 
 ### Apple Health
 - Read types (steps, walking+running distance, cycling distance, heart rate, body mass, workouts with swimming distance, sleep analysis, resting heart rate, HRV SDNN), one toggle per category: `ios/AIWorkout/Core/Health/HealthStore.swift` (`readTypes(for:)`). Heart rate and recovery adds VO2 max, walking heart rate average, respiratory rate, sleeping wrist temperature and oxygen saturation, requested only by its own Turn on button and read only while it is on: `HealthStore.swift` (`recoveryReadTypes`, `vitalType`), `ios/AIWorkout/Features/Recovery/RecoveryDataSource.swift` (`RecoveryGate`, `HealthRecoverySource`); kept in `recovery.json`, excluded from backup: `ios/AIWorkout/Features/Recovery/RecoveryStore.swift`
@@ -505,7 +513,10 @@ Every path is relative to the root of the app's source repository. A bare file n
 - Journey mileage read from the lifter's tracking start date (`TrackingWindow.Bounds.earningStart`, set in Settings): `ios/AIWorkout/Core/Health/HealthManager.swift` (`trackingBounds`, the journey read)
 - The workout-history read is bounded in code, not unlimited, and the bound is a code constant rather than a policy commitment (it can change without notice to this page): `HealthStore.swift:494`, `HealthManager.swift:102, 108`
 - Background delivery only when the lifter turns on "Update my boards in the background" (off by default, including existing installs): `ios/AIWorkout/Core/Health/BackgroundBoardUpdates.swift` (`categories`, `BackgroundBoardUpdater`), `HKObserverQuery` and `enableBackgroundDelivery` in `HealthStore.swift` (`startBackgroundDelivery`, `stopBackgroundDelivery`), called through `HealthManager.swift`, the `com.apple.developer.healthkit.background-delivery` entitlement; a wake runs the ordinary consent-gated sync (`MetricSyncService` through `MetricUploadConsent`) and requests no new permission. No `UIBackgroundModes` in the iPhone app: `ios/AIWorkout/Info.plist`. The one anchored query in the project is the watch app's live heart-rate read during a workout the user started (`ios/AIWorkoutWatch/WatchWorkoutSession.swift:431`), under the watch's `workout-processing` background mode (`ios/AIWorkoutWatch/Info.plist:34-37`); it ends with the workout
-- Usage strings (and the gap): `ios/AIWorkout/Info.plist:60-63`
+- Usage strings: `NSHealthShareUsageDescription` and `NSHealthUpdateUsageDescription` in `ios/AIWorkout/Info.plist`, and the watch's in `ios/AIWorkoutWatch/Info.plist`, held to the requested type sets in both directions, and refusing the word readiness, by `ios/AIWorkoutTests/HealthPurposeStringTests.swift` and `WatchHealthPurposeStringTests.swift` (bugs #571)
+- Resting heart rate sets the heart-rate zones (`restingHeartRateForZones`, read through `ReadinessSignalsProvider` into `HeartRateZonesView.swift` and `WorkoutView.swift`); sleep, HRV and the five further types are used only behind `RecoveryGate` (`mayReadSleep`, `mayReadHRV`, `mayReadWorkoutHeartRate`) in `ios/AIWorkout/Features/Recovery/RecoveryDataSource.swift`, `ios/AIWorkout/Features/WatchIntel/OvernightBlock.swift` and `CardioSnapshot.swift`. The older signal read (`HealthManager.refreshReadinessSignals`, run from the Workout tab) still fetches sleep and HRV when those Health categories are on; nothing reads those two values from it, and only `restingHeartRateForZones` is used
+- Per-set heart rate: computed after the workout from Health's samples by `ios/ProgressionEngine/Sources/ProgressionEngine/WatchIntel/SetHeartRate.swift` (`SetHeartRateSummary`), written by `ios/AIWorkout/Features/WatchIntel/SetHeartRateWrite.swift` only through `RecoveryGate.mayReadWorkoutHeartRate`, kept in `SetHeartRateStore` (excluded from backup) and joined to a set by `setUID` (`ios/AIWorkout/Models/WorkoutLogModels.swift`). It appears in the JSON export (`WorkoutDataExport.swift`, `SetHeartRateExport`) and in no coach context, workout-share payload, Sheets export or server payload. Late readings are picked up by an observer query that runs only while the app is open (`HealthStore.swift`, `startHeartRateObserver`), with no background delivery
+- The phone saves a wrist workout the watch could not save, through the same `mirrorWorkout` path with `activeEnergyKcal: nil`: `ios/AIWorkout/AIWorkoutApp.swift` (bugs #486), `ios/AIWorkout/Core/WatchSessionReceiver.swift`
 - Health values in coach context: `ios/AIWorkout/Core/TrainerContextBuilder.swift:109-127, 396-415`, `ios/AIWorkout/Features/Chat/ChatView.swift:873-891`
 - Live heart rate from the watch: measured in `ios/AIWorkoutWatch/WatchWorkoutSession.swift`, throttled by `ios/ProgressionEngine/Sources/WatchLink/HeartRateThrottle.swift`, held in memory only by `ios/AIWorkout/Core/CurrentWorkoutState.swift` (`recordHeartRate`, dropped past 90 seconds and on `clear()`), and reaching the coach at `TrainerContextBuilder.swift` `buildActiveSession`. It appears in no SwiftData model, no export, no widget snapshot, and no server payload
 - Health metrics to the competition server, and the gate that reads nothing until you have opted a metric in: `ios/AIWorkout/Core/Competition/MetricSyncService.swift` (`activeMetrics()`, which fetches) calling `ios/ProgressionEngine/Sources/CompetitionKit/MetricUploadConsent.swift` (which decides, and is the single place the three opt-in routes are resolved). The rule is unit-tested case by case in `MetricUploadConsentTests.swift`, including that a private scope opts nothing in and that a metric keeps uploading until the *last* route to it closes.
@@ -515,6 +526,9 @@ Every path is relative to the root of the app's source repository. A bare file n
 - Key in Keychain, `kSecAttrAccessibleWhenUnlockedThisDeviceOnly`, no iCloud sync: `ios/AIWorkout/Core/AICoachConfig.swift:122-171`
 - Key sent only as a header, never logged: `ios/AIWorkout/Core/TrainerClient.swift:554-566`
 - Relay uses the key per-request and does not persist it: `backend/src/app.ts:72-128`, `backend/src/providers/gemini.ts:41-47`
+- The readiness score is no longer sent: `TrainerContextBuilder.swift` passes `readiness: nil` (backlog #774), and the widget snapshot's readiness fields are always empty (`ios/AIWorkout/Core/WidgetSnapshotWriter.swift`)
+- The missed-day choice in a program request: `ios/AIWorkout/Core/ProgramClient.swift` (`ProfileRequest.missedDayPolicy`), echoed by `backend/src/program.ts` (`missedDayPolicyFrom`, bugs #487). The pulling and dumbbell press results in the fitness test payload: `ios/ProgressionEngine/Sources/BaselineTest/BaselinePlanInput.swift`, `backend/src/baseline.ts` (`V2_FIELDS`, backlog #798)
+- "Let the coach speak first" is off unless turned on, and no settings row reads as off: `ProactiveCoachDirector.swift` (`settings?.coachMaySpeakFirst ?? false`, bugs #500), toggle and footer in `ios/AIWorkout/Features/Settings/SettingsView.swift`
 - Complete context struct: `ios/AIWorkout/Core/TrainerContextBuilder.swift` (whole file); rendered to prose at `backend/src/context.ts:713-777` (`renderClientContext`)
 - Profile mapped to four fields only; name, sex, birth year, bodyweight, avatar, locations all withheld: `TrainerContextBuilder.swift` `buildProfile`, against the model at `ios/AIWorkout/Models/ProgramModels.swift:11`
 - Consent gates before any send: `ChatView.swift:721-726, 919, 1001-1002`
@@ -561,7 +575,9 @@ There are three call sites for that one fix, and they end differently. The disti
 - Widget snapshot contents (no name, no identifier, no raw health values): `ios/Shared/WidgetSnapshot.swift:12-64, 164-170, 176-220`
 - Four Keychain items in use: `AICoachConfig.swift:122-171` (`AICoachConfigStore`), `ios/AIWorkout/Core/Competition/TokenStore.swift:13-68`, `GoogleSheetsTokenStore.swift`, and `ios/AIWorkout/Core/Subscription/EntitlementCache.swift:81-143` (the remembered subscription tier, instantiated by `SubscriptionManager.swift:586`). The first three are this-device-only (`kSecAttrAccessibleWhenUnlockedThisDeviceOnly`); the entitlement cache deliberately is not (`kSecAttrAccessibleAfterFirstUnlock`, by design, so it survives a restore) and is not named in "Security" or cleared by "Delete all data," neither of which claims to be a complete Keychain inventory. A further this-device-only token store exists in the code for a third-party health-service integration that is hidden and cannot be connected in the shipped build, because its OAuth client id (`GOOGLE_HEALTH_CLIENT_ID`) is empty in `ios/Config.xcconfig`: `ios/AIWorkout/Features/Settings/IntegrationsSettingsView.swift:36-56`
 - Install identifier is local and only hashed locally: `ios/AIWorkout/Core/AvatarIdentity.swift:17-37`
-- Export contents: `ios/AIWorkout/Features/Settings/WorkoutDataExport.swift`
+- Export contents: `ios/AIWorkout/Features/Settings/WorkoutDataExport.swift`, including `setSeconds`, `restAfterSeconds` and `SetHeartRateExport`; the profile snapshot carries no body weight, birth year or home coordinate
+- Groups are private lists on the device, never sent, excluded from backup and removed by the wipe: `ios/AIWorkout/Core/Competition/PrivateListStore.swift` (backlog #623); the shared server groups an account owned become its own lists once, keeping only members who are its friends
+- The feedback outbox, one file per report, excluded from backup, sent once by idempotency key and removed by the wipe: `ios/AIWorkout/Core/Feedback/FeedbackOutbox.swift` (backlog #799); the server's first-write-wins insert: `server/src/feedback.ts` (`feedbackIdForKey`)
 - Local reminders are scheduled by the device and nothing about them leaves it: `ios/AIWorkout/Features/Notifications/NotificationScheduler.swift`
 - Remote notifications are opt-in, and the opt-in is our own flag rather than iOS's authorization status, so granting permission for reminders does not enrol anybody in push: `ios/AIWorkout/Features/Notifications/PushRegistrar.swift` (`OptIn`, and the invariant stated at the top of the file)
 - Never asked at launch: the two ask moments are an invitation sent and a cheer received, both raised only from the Social tab: `PushRegistrar.consider(_:)` (`PushRegistrar.swift:145`), called with `.cheerArrived` from `CompetitionRootView.swift:385` and with `.sentInvitation` from `AddFriendView.swift:556`, `CreateChallengeView.swift:570`, `AddPeopleToChallengeSheet.swift:110` and `AddPeopleToRaceSheet.swift:164` in `ios/AIWorkout/Features/Competition/`
@@ -573,7 +589,7 @@ There are three call sites for that one fix, and they end differently. The disti
 - No third-party packages at all: `ios/project.yml` (only the local `ProgressionEngine`), `ios/ProgressionEngine/Package.swift` (no remote dependencies)
 - No ad identifier or tracking framework: no matches for `AppTrackingTransparency`, `ASIdentifierManager`, `advertisingIdentifier`, `NSUserTrackingUsageDescription` in `ios/`
 - Delete-all-data implementation: `ios/AIWorkout/Features/Settings/SettingsView.swift:997-1063`; dialog copy at `:258-273`
-- The stores outside SwiftData that the wipe reaches, each key named at the type that owns it: `ios/AIWorkout/Core/LocalDataWipe.swift`
+- The stores outside SwiftData that the wipe reaches, each key named at the type that owns it, including `RecoveryStore`, `SetHeartRateStore`, `PrivateListStore`, `BlockReviewStore` and `FeedbackOutbox`: `ios/AIWorkout/Core/LocalDataWipe.swift`
 - Every settings field returned to its default, including the home coordinate: `ios/AIWorkout/Models/AppSettings.swift:540-652` (`resetToDefaults()`)
 - Tests: preference keys claimed and not claimed, and a settings row mutated field by field and reset: `ios/AIWorkoutTests/LocalDataWipeTests.swift`
 - Delete-account implementation: `SettingsView.swift:274-301, 331-339`; token and cache clearing at `ios/AIWorkout/Core/Competition/AuthStore.swift:324-333` (`forceSignOut()`)
@@ -592,17 +608,20 @@ There are three call sites for that one fix, and they end differently. The disti
 - Leaving global drops league enrolment: `server/src/app.ts:1456-1458` (`syncEnrollmentToScope`)
 - Metric values stored per event plus daily rollups, no expiry: `server/src/metrics.ts:152-162`, `server/src/store/dynamo.ts:3315-3352`
 - Cheers are a fixed preset set, no free text: `server/src/validation.ts:389-392` (`cheerSchema`)
-- The free-text fields other users can see, each bounded and sanitized rather than absent: `challengeName` (optional on `createChallengeSchema` and `updateChallengeSchema`), the route and race label fields (`routeLabelText`) and stop notes (`routeNoteText`) in `server/src/validation.ts`, group names in `server/src/groups.ts`, and `display_name` and the handle on the user record. There is no message field anywhere: no route, race, challenge, group or cheer carries text addressed to a person
+- The free-text fields other users can see, each bounded and sanitized rather than absent: `challengeName` (optional on `createChallengeSchema` and `updateChallengeSchema`), the route and race label fields (`routeLabelText`) and stop notes (`routeNoteText`) in `server/src/validation.ts`, group names in `server/src/groups.ts` (shared groups made before they became private lists; nobody can join one, since `b359d21f`, bugs #518), and `display_name` and the handle on the user record. A name refused by the word filter at sign-in leaves the account with no name rather than failing (`offeredDisplayName` in `server/src/app.ts`), and names in a shared workout or share-back report are replaced rather than refused (`renamedForLanguage`). The app's profile name is the server's display name: `ios/AIWorkout/Core/Competition/DisplayNameSync.swift` (bugs #547). There is no message field anywhere: no route, race, challenge, group or cheer carries text addressed to a person
 - Challenge detail hidden from non-participants: `server/src/challenges.ts:1222-1239`
 - Avatars validated against a closed preset space: `server/src/avatars.ts`
 - Handle sanitization: `server/src/handle.ts:23-41`, rationale in `server/SECURITY.md:22-43`
-- Feedback fields, server-side anonymity decision, screenshot stored inline in DynamoDB (not in the route-photo bucket), attached diagnostics stored inline as the `diagnostics` attribute, line-capped: `server/src/feedback.ts`, `server/src/store/dynamo.ts` (feedback put), `server/src/validation.ts` (feedback schema, the `diagnostics` array's `.max()`). No TTL on feedback items yet: `server/src/retention.ts` (the retention-gap note). The 12-month feedback deletion stated in the policy is not yet automated and is tracked for a later build. The triage copy is written by `server/src/feedback-sheet-sync.ts`, which only appends; removing a deleted account's name and screenshot from the triage spreadsheet and folder is done by hand within 30 days until it is automated
+- Feedback fields, server-side anonymity decision, screenshot stored inline in DynamoDB (not in the route-photo bucket), attached diagnostics stored inline as the `diagnostics` attribute, line-capped: `server/src/feedback.ts`, `server/src/store/dynamo.ts` (feedback put), `server/src/validation.ts` (feedback schema, the `diagnostics` array's `.max()`). No TTL on feedback items yet: `server/src/retention.ts` (the retention-gap note). The 12-month feedback deletion stated in the policy is not yet automated and is tracked for a later build. The triage copy is written by `server/src/feedback-sheet-sync.ts`; the same daily run removes a deleted account's name from the triage spreadsheet and deletes its screenshot from the folder (`reconcileDeletedAccounts`, bugs #352), and a screenshot it cannot delete fails the run so the alarm says so. Exercise requests are a feedback category whose checked fields are folded into the stored message: `server/src/exercise-request.ts` (`formatExerciseRequest`, `isYouTubeLink`), `server/src/validation.ts` (`feedbackSchema`, `exerciseRequestSchema`)
 - Account deletion: `server/src/app.ts:1313-1333`, `server/src/store/dynamo.ts:2769-2931`; trophy anonymization `server/src/trophies.ts:16`; screenshot deletion and its rationale `server/src/store/dynamo.ts:2828-2834`
 - On account deletion, feedback keeps its message, context and `diagnostics`; only `user_id`, `user_label` and the screenshot go: `server/src/store/dynamo.ts` ("Anonymize feedback")
 - Account deletion removes routes shared, race participation, check-ins and race photos by cascade (`server/src/db.ts`, `REFERENCES users(id) ON DELETE CASCADE`). `races.owner_id` carries no cascade, so a race an organizer created is not shown here as deleted with the organizer; not asserted in the policy
 - Route stop notes are sanitized to a size cap: `server/src/route-payload.ts` (`STOP_NOTE_MAX`)
 - Name fields are checked against a whole-word English blocklist and refused on a match: `server/src/text-filter.ts` (bugs #287)
 - Moderation alert emails carry a size-capped snapshot: `server/src/moderation-alerts.ts` (`ALERT_SNAPSHOT_MAX`), delivered through the `ModerationAlertTopic` SNS topic in `infra/template.yaml`
+- A blocked person's row on a board or roster reads "Racer X" with a shared neutral avatar and a per-viewer token in place of the account id: `server/src/user-blocks.ts` (`CONCEALED_DISPLAY_NAME`, `CONCEALED_AVATAR`, `concealedUserId`, bugs #517), `ios/ProgressionEngine/Sources/CompetitionKit/ConcealedIdentity.swift`
+- The Active days league scores days on which steps met the person's own goal, and the goal is not sent to anyone else: `server/src/consistency-league.ts`, `server/src/board-scoring.ts` (`active_days`)
+- A friend request to someone on a shared challenge, race or league roster: `server/src/app.ts` (`/friends/requests/by-user`), `FriendRequestByUserRequest` in `ios/ProgressionEngine/Sources/CompetitionKit/DTOs.swift` (backlog #620)
 - Cheers: a fixed set in challenges (`server/src/validation.ts`, challenge cheer schema) and between friends with the emote not stored and a `cheer` change-log row for the recipient: `server/src/friend-cheers.ts`
 - The friends board reads only what each person volunteered, and omits a day nobody recorded rather than reporting it as zero: `server/src/friends-summary.ts`, `server/src/board-scoring.ts`, contract test `server/test/store-contract.ts` ("omits a day with no counting total rather than reporting it as zero")
 - Your daily goal is never sent to anyone else: `server/src/friends-summary.ts` (`goal` is present only on the caller's own row), test `server/test/friends-summary.test.ts` ("never shows another person daily goal, only the caller own")
@@ -631,7 +650,7 @@ There are three call sites for that one fix, and they end differently. The disti
 
 ### The subscription
 - Two monthly products and the only difference between them: `ios/AIWorkout/Core/Subscription/SubscriptionManager.swift` (`SubscriptionTier`, `SubscriptionProduct.allIDs`: `com.mig1278.aiworkout.user.monthly`, `com.mig1278.aiworkout.coach.monthly`), `ios/AIWorkout/Core/Subscription/CoachingAllowance.swift` (`baseTierLimit`)
-- What a subscription gates and what stays open regardless: `ios/AIWorkout/Core/Subscription/EntitlementStatus.swift` (`GatedSurface`, `GatedSurface.openWhenLocked`), applied by `ios/AIWorkout/Features/Paywall/PaywallGate.swift`. `MONETIZATION_ENABLED = YES` in `ios/Config.xcconfig`
+- What a subscription gates and what stays open regardless: `ios/AIWorkout/Core/Subscription/EntitlementStatus.swift` (`GatedSurface`, `GatedSurface.openWhenLocked`), applied by `ios/AIWorkout/Features/Paywall/PaywallGate.swift`. `MONETIZATION_ENABLED = YES` in `ios/Config.xcconfig`. Friends and groups are open (ruled 2026-10-01) and so are challenges (ruled 2026-10-05); races and leagues stay behind `.compete` (`CompetitionSection.gate`)
 - Purchase and restore are Apple's own, with no payment processor in the project: `SubscriptionManager.swift` (`PurchaseAction` via `ios/AIWorkout/Features/Paywall/SubscriptionManager+PurchaseAction.swift`, `AppStore.sync()`, `Transaction.currentEntitlements`, `Transaction.updates`)
 - The purchase carries an `appAccountToken` that is the account id reformatted as a UUID: `SubscriptionManager.swift` (purchase options), `ios/AIWorkout/Core/Subscription/SubscriptionAccountToken.swift`
 - The app transaction id is sent at launch when signed in on iOS 18.4+: `SubscriptionManager.swift` (`reportAppTransaction`), `ios/AIWorkout/Core/Competition/CompetitionAPIClient.swift` (`me/apple-transaction`). The server stores an `APPTXN#<id>` link row to the user id whether or not `AppleSubscriptionsEnabled` is on: `server/src/app.ts` (`POST /me/apple-transaction`), `server/src/subscriptions.ts` (`linkAppTransaction`). Link rows are deliberately outside the user partition and survive account deletion: `server/src/store/dynamo.ts` (`appleLinkKey`)
