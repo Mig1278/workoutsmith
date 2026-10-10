@@ -1,7 +1,7 @@
 # WorkoutSmith Privacy Policy
 
 **Effective date:** August 29, 2026
-**Last updated:** 2026-10-09
+**Last updated:** 2026-10-10
 
 ---
 
