@@ -184,7 +184,7 @@ If you never sign in, our server has no account record for you. The only things 
 - **You are never told whether that address has an account.** The reply is identical either way, so this screen cannot be used to find out who uses the app.
 - **If it matches nobody, we keep the fingerprint (never the address) for up to 30 days**, so the request is waiting if that person signs up. It arrives as a request they can accept or decline. It is deleted once used, when it expires, or when you delete your account. No email is ever sent.
 
-**Your account record** contains an internal id, the Apple identifier, the email fingerprint, your display name, your public handle if you set one, and your avatar id. **Avatars are not photos:** they are one of a limited set of preset icon-and-colour combinations.
+**Your account record** contains an internal id, the Apple identifier, the email fingerprint, your display name, your public handle if you set one, and your avatar id. Once you sign in, it also holds a token Apple provides so that deleting your account can end the app's Sign in with Apple access. It is used for nothing else, and it is deleted with your account. **Avatars are not photos:** they are one of a limited set of preset icon-and-colour combinations.
 
 **What else is stored, and why.**
 
@@ -432,7 +432,7 @@ It does not clear the diagnostic logs, which age out on their own within 7 days.
 
 **It does not delete your account on our server.** It signs you out on this device, but your account survives, and signing in again brings it back.
 
-**"Delete account" (Settings)** deletes your account on our server. Your on-device workouts are not affected. It removes your profile, handle, Apple identifier and email fingerprint records, sessions, sharing settings, friendships, invite codes, friend requests, metric values and daily totals, league and challenge participation, activity feed, the routes you shared, your places on race rosters with your check-ins and race photos, your shared programs and workouts, and your block list. Challenges you created are removed with their rosters and cheers.
+**"Delete account" (Settings)** deletes your account on our server. Your on-device workouts are not affected. It removes your profile, handle, Apple identifier and email fingerprint records, sessions, sharing settings, friendships, invite codes, friend requests, metric values and daily totals, league and challenge participation, activity feed, the routes you shared, your places on race rosters with your check-ins and race photos, your shared programs and workouts, and your block list. It also asks Apple to end this app's Sign in with Apple access, so the app no longer appears under Sign in with Apple in your Apple ID settings. If Apple cannot be reached, your account is deleted anyway. Challenges you created are removed with their rosters and cheers.
 
 **What survives account deletion, and why.**
 - **Trophies stay, anonymized.** Your name is replaced with "Departed athlete" so other people's competition history stays correct.
@@ -479,8 +479,7 @@ This policy describes what WorkoutSmith does today. We keep improving the app, a
 - **Keeping your subscription status on our server**, received directly from Apple (see "Your subscription");
 - **Sending a complete diagnostic log with feedback** to private storage that deletes it automatically after 30 days, instead of the current capped excerpt;
 - **Connecting to another third-party fitness or health service you choose to link**, on the same opt-in, your-own-account basis described in this policy;
-- **Sharing more of your activity with friends**, such as cycling or walking distance, on the same per-metric opt-in you use for competitions today;
-- **Revoking the app's Sign in with Apple access when you delete your account**, which means keeping a token Apple provides for that purpose.
+- **Sharing more of your activity with friends**, such as cycling or walking distance, on the same per-metric opt-in you use for competitions today.
 
 None of these is active today. If we add one of them, or any other feature that collects a new kind of data or uses data for a new purpose, we commit to the following:
 - **We will update this policy before the version that does it is released**, describing what is collected, why, who can see it, and how long it is kept, and we will update the App Store privacy details to match.
